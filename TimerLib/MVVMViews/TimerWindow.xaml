@@ -1,0 +1,105 @@
+﻿<Window x:Class="TimerLib.MVVMViews.TimerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimerLib.MVVMViews"
+        mc:Ignorable="d"
+        Title="TimerWindow" 
+        Height="100" Width="200" 
+        Closing="Window_Closing" 
+        MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave">
+    <Window.Resources>
+        <!--右键菜单-->
+        <ContextMenu Name="CM" x:Key="contextMenu">
+            <MenuItem Name="CMTest" Header="测试" Click="CMTest_Click" Tag="{Binding Header, RelativeSource={RelativeSource Self}}"/>
+            <Separator/>
+            <MenuItem Name="Refresh" Header="刷新" Click="Refresh_Click" Tag="{Binding Header, RelativeSource={RelativeSource Self}}"/>
+        </ContextMenu>
+    </Window.Resources>
+    <Window.Style>
+        <Style TargetType="{x:Type Window}">
+            <Style.Setters>
+                <!--去掉边框-->
+                <Setter Property="WindowStyle" Value="None"/>
+                <!--允许透明-->
+                <Setter Property="AllowsTransparency" Value="True"/>
+                <!--设置背景透明-->
+                <Setter Property="Background" Value="Transparent"/>
+                <!--设置白色透明(不设也行)-->
+                <!--<Setter Property="OpacityMask" Value="White"/>-->
+                <!--设置透明度-->
+                <Setter Property="Opacity" Value="0.8"/>
+                <!--窗口置顶-->
+                <Setter Property="Topmost" Value="True"/>
+                <!--窗口禁止缩放-->
+                <Setter Property="ResizeMode" Value="NoResize"/>
+            </Style.Setters>
+        </Style>
+    </Window.Style>
+    <!--样式定义无需使用WindowChrome.WindowChrome-->
+    <!--<WindowChrome ResizeBorderThickness="6" CaptionHeight="0"/>-->
+    <!--为Gird订阅的MouseLeftButtonDown路由事件，是为了实现窗体的拖动。-->
+    <Grid x:Name="mainGrid" Margin="0" ClipToBounds="True">
+        <Border x:Name="baseBorder" CornerRadius="10" Margin="6" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+            <!--设置背景色-->
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,0.1">
+                    <GradientStop Color="#FFEAF4FF" Offset="0"/>
+                    <GradientStop Color="#FFF4F8F9" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <!--设置边界圆角及效果-->
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="#AAAAAA"/>
+            </Border.Effect>
+            <Grid ShowGridLines="False">
+                <!--上部是否运行图标-->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <!--png图片生成操作需改为：资源，否则图片不显示-->
+                    <!--《WPF 中 Visibility.Collapsed 与 Visibility.Hidden 区别》https://blog.csdn.net/MrBaymax/article/details/89474702 -->
+                    <!--Visibility.Hidden 虽隐藏了控件，但保留了它在布局中占用的空间；Visibilty.Collapsed 既不呈现控件，也不保留空间。-->
+                    <Image x:Name="runningImg" Visibility="Visible" Source="/TimerLib;component/Pictures/PPTTimer.png" Width="15" Height="15" Margin="4,6.5,0,0"/>
+                </StackPanel>
+                <!--右下方格式信息框-->
+                <!--《WPF 左右滚动文字示例》https://www.cnblogs.com/HGSJJ/p/14466288.html-->
+                <Canvas x:Name="cv_Mes" RenderTransformOrigin="0.5,0.5" Height="{Binding ActualHeight, ElementName=tb_Mes, Mode=OneWay}" VerticalAlignment="Bottom" Margin="120,0,10,0" ClipToBounds="True">
+                    <TextBlock x:Name="tb_Mes" Canvas.Left="{Binding CVLeft}" Text="{Binding Mes}" FontFamily="Cascadia Mono" FontSize="14"/>
+                </Canvas>
+                <!--计时数字显示-->
+                <TextBlock x:Name="tb_TimeDisplay" Panel.ZIndex="0"
+                           VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="62" Margin="0,0,0,0" ContextMenuOpening="Tb_TimeDisplay_ContextMenuOpening">
+                    <!--创建绑定（也可使用前面Window.Style的方式绑定）-->
+                    <TextBlock.ContextMenu>
+                        <!--绑定右键菜单-->
+                        <!--《wpf 右键菜单的使用》https://www.cnblogs.com/wjx-blog/p/11008445.html-->
+                        <Binding Source="{StaticResource contextMenu}"/>
+                    </TextBlock.ContextMenu>
+                    <TextBlock.Foreground>
+                        <!--颜色绑定到依赖属性-->
+                        <Binding Path="TimeColor"/>
+                    </TextBlock.Foreground>
+                    <TextBlock.Text>
+                        <!--内容绑定到依赖属性-->
+                        <Binding Path="TimeDisplay"/>
+                    </TextBlock.Text>
+                </TextBlock>
+
+                <!--操作行内容-->
+                <Grid x:Name="actionGrid" Visibility="Collapsed">
+                    <!--上部关闭图标-->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" FlowDirection="RightToLeft">
+                        <!--png图片生成操作需改为：资源，否则图片不显示-->
+                        <Image Source="/TimerLib;component/Pictures/exit.png" 
+                               Width="24" Height="24" Margin="2,2,0,0" MouseLeftButtonDown="ImageClose_MouseLeftButtonDown"/>
+                    </StackPanel>
+                    <!--下部固定图标-->
+                    <StackPanel Margin="0,63,0,0" Orientation="Horizontal" VerticalAlignment="Top">
+                        <Image Source="/TimerLib;component/Pictures/setting.png" Height="25" Width="25" HorizontalAlignment="Left" MouseLeftButtonDown="ImageSettings_MouseLeftButtonDown"/>
+                        <Image x:Name="pauseImg" MouseLeftButtonDown="ImagePause_MouseLeftButtonDown" Margin="57,0,0,0" Width="25" Height="25" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

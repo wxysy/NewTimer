@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Pictures\exit.png" />
+    <None Remove="Pictures\pauseAndStart.png" />
+    <None Remove="Pictures\PPTTimer.png" />
+    <None Remove="Pictures\setting.png" />
+    <None Remove="Pictures\start.png" />
+    <None Remove="Pictures\stop.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Temp\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Pictures\exit.png" />
+    <Resource Include="Pictures\pauseAndStart.png" />
+    <Resource Include="Pictures\PPTTimer.png" />
+    <Resource Include="Pictures\setting.png" />
+    <Resource Include="Pictures\start.png" />
+    <Resource Include="Pictures\stop.png" />
+  </ItemGroup>
+
+</Project>
