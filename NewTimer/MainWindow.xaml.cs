@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PPTLib;
+using NewTimer.Function;
 using PPTLib.Functions;
 using TimerLib;
 using TimerLib.Functions;
@@ -29,17 +29,14 @@ namespace NewTimer
             InitializeComponent();
             progress = new Progress<string>(p => tb_Show.Text += $"{p}\n");
             timer = TimerStarter.CreatCountDownTimer(12, Brushes.Blue, 5, Brushes.Red, 1, false, CountDown_ZeroEvent, TimerClose_Event, TimerTick_Event);
-            pptPlay = new();
-            pptPlay.PPTShowBegin += (sender, e) => progress.Report("PPT打开");
-            pptPlay.PPTShowEnd += (sender, e) => progress.Report("PPT关闭");
 
-            pptCD = new(progress);
+            pptCD = new(12, Brushes.Blue, 5, Brushes.Red, 1, progress); //设定主要参数
         }
         IProgress<string> progress;
-
+        PPTCountDown pptCD;
 
         #region Timer测试
-        CountDown timer;
+        CountDownTimer timer;
         private void CountDown_ZeroEvent(object? sender, EventArgs e)
         {
             progress.Report("0时刻事件引发");
@@ -72,27 +69,16 @@ namespace NewTimer
         }
         #endregion
 
-        #region PPT测试
+        #region PPT+Timer测试
         string filePath = @"D:\ProgrammingProjects\2-Testing\test.pptx";
-        PPTPlay pptPlay;
-        private async void Btn_Open_Click(object sender, RoutedEventArgs e)
+        private void Btn_Open_Click(object sender, RoutedEventArgs e)
         {
-            //pptPlay.PPTOpen(filePath);
-            //await Task.Delay(15000);
-            //pptPlay.PPTClose();
-
             pptCD.PPTOpen(filePath);
         }
         private void Btn_ClosePPT_Click(object sender, RoutedEventArgs e)
         {
-            //pptPlay?.PPTClose();
-
             pptCD.PPTClose();
         }
-        #endregion
-
-        #region 组合测试
-        PPTCountDown pptCD;
         #endregion
     }
 }

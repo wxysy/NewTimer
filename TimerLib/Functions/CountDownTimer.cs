@@ -12,7 +12,7 @@ using TimerLib.MVVMViews;
 
 namespace TimerLib.Functions
 {
-    public class CountDown: INotifyPropertyChanged
+    public class CountDownTimer: INotifyPropertyChanged
     {
         #region 定义属性发生变化时引发的事件及相关操作（里面的内容是固定的，直接用。）
         /*--------监听事件处理程序------------------------------------------------------------------------*/
@@ -121,7 +121,7 @@ namespace TimerLib.Functions
         }
         #endregion
 
-        public CountDown(int countDownSeconds, Brush countDownColor, int warningSeconds, Brush warningColor, int timerInterval, bool allowUIControl)
+        public CountDownTimer(int countDownSeconds, Brush countDownColor, int warningSeconds, Brush warningColor, int timerInterval, bool allowUIControl)
         {
             LoadingParas(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, allowUIControl);//设定主要参数
             InitializeTimer();//初始化Timer
@@ -132,7 +132,7 @@ namespace TimerLib.Functions
         /// 0时刻事件(除停止计时器和关闭窗体外的)
         /// </summary>
         public event EventHandler? ZeroEvent;
-        public void OnZeroEvent() => ZeroEvent?.Invoke(this, EventArgs.Empty);
+        private void OnZeroEvent() => ZeroEvent?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
         /// 倒计时器在关闭之前的操作(e:剩余时间s)。

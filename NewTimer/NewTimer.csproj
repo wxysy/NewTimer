@@ -13,8 +13,4 @@
     <ProjectReference Include="..\PPTLib\PPTLib.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Function\" />
-  </ItemGroup>
-
 </Project>
