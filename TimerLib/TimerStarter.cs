@@ -23,7 +23,7 @@ namespace TimerLib
         /// <param name="timerClosingEvent">关闭计时器时的额外动作(e:剩余秒数，若0时刻关闭也会引发此事件)</param>
         /// <param name="timerTickEvent">计时器每次Tick时的额外操作(不用在此类中编写倒计时变化，且0时刻不会引发此事件)</param>
         /// <returns>倒计时器实例</returns>
-        public static CountDown CreatCountDownTimer(int countDownSeconds, Brush countDownColor, int warningSeconds, Brush warningColor, int timerInterval, bool allowUIOperation, EventHandler? zeroEvent, EventHandler<int>? timerClosingEvent, EventHandler? timerTickEvent)
+        public static CountDown CreatCountDownTimer(int countDownSeconds, Brush countDownColor, int warningSeconds, Brush warningColor, int timerInterval, bool allowUIOperation, EventHandler? zeroEvent, EventHandler<int>? timerClosingEvent, EventHandler<int>? timerTickEvent)
         {
             CountDown countDown = new(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, allowUIOperation);
             countDown.ZeroEvent += zeroEvent;

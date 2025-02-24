@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimerLib", "TimerLib\TimerLib.csproj", "{9657FB13-4A69-414B-A0A0-3DB0AD37ED44}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewTimer", "NewTimer\NewTimer.csproj", "{67D8AEE9-E8B6-45AB-B794-C680B5DB9E8E}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TimerSetup", "TimerSetup\TimerSetup.vdproj", "{D6C69522-CABC-4BFF-83AA-D9E60DD38779}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimerLib", "TimerLib\TimerLib.csproj", "{9C6C5628-0E0C-AA13-2C07-CE9E6B8B6D9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPTLib", "PPTLib\PPTLib.csproj", "{F21CCA41-6039-47B7-ACD2-44D694F1E56D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,14 +19,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9657FB13-4A69-414B-A0A0-3DB0AD37ED44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9657FB13-4A69-414B-A0A0-3DB0AD37ED44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9657FB13-4A69-414B-A0A0-3DB0AD37ED44}.Debug|x64.ActiveCfg = Debug|x64
-		{9657FB13-4A69-414B-A0A0-3DB0AD37ED44}.Debug|x64.Build.0 = Debug|x64
-		{9657FB13-4A69-414B-A0A0-3DB0AD37ED44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9657FB13-4A69-414B-A0A0-3DB0AD37ED44}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9657FB13-4A69-414B-A0A0-3DB0AD37ED44}.Release|x64.ActiveCfg = Release|x64
-		{9657FB13-4A69-414B-A0A0-3DB0AD37ED44}.Release|x64.Build.0 = Release|x64
 		{67D8AEE9-E8B6-45AB-B794-C680B5DB9E8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{67D8AEE9-E8B6-45AB-B794-C680B5DB9E8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67D8AEE9-E8B6-45AB-B794-C680B5DB9E8E}.Debug|x64.ActiveCfg = Debug|x64
@@ -37,8 +31,27 @@ Global
 		{D6C69522-CABC-4BFF-83AA-D9E60DD38779}.Debug|x64.ActiveCfg = Debug
 		{D6C69522-CABC-4BFF-83AA-D9E60DD38779}.Release|Any CPU.ActiveCfg = Release
 		{D6C69522-CABC-4BFF-83AA-D9E60DD38779}.Release|x64.ActiveCfg = Release
+		{9C6C5628-0E0C-AA13-2C07-CE9E6B8B6D9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C6C5628-0E0C-AA13-2C07-CE9E6B8B6D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C6C5628-0E0C-AA13-2C07-CE9E6B8B6D9D}.Debug|x64.ActiveCfg = Debug|x64
+		{9C6C5628-0E0C-AA13-2C07-CE9E6B8B6D9D}.Debug|x64.Build.0 = Debug|x64
+		{9C6C5628-0E0C-AA13-2C07-CE9E6B8B6D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C6C5628-0E0C-AA13-2C07-CE9E6B8B6D9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C6C5628-0E0C-AA13-2C07-CE9E6B8B6D9D}.Release|x64.ActiveCfg = Release|x64
+		{9C6C5628-0E0C-AA13-2C07-CE9E6B8B6D9D}.Release|x64.Build.0 = Release|x64
+		{F21CCA41-6039-47B7-ACD2-44D694F1E56D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F21CCA41-6039-47B7-ACD2-44D694F1E56D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F21CCA41-6039-47B7-ACD2-44D694F1E56D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F21CCA41-6039-47B7-ACD2-44D694F1E56D}.Debug|x64.Build.0 = Debug|Any CPU
+		{F21CCA41-6039-47B7-ACD2-44D694F1E56D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F21CCA41-6039-47B7-ACD2-44D694F1E56D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F21CCA41-6039-47B7-ACD2-44D694F1E56D}.Release|x64.ActiveCfg = Release|Any CPU
+		{F21CCA41-6039-47B7-ACD2-44D694F1E56D}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4AAF74F8-5760-45AD-A3B4-EF7D870D0E9A}
 	EndGlobalSection
 EndGlobal

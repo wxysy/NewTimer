@@ -7,10 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button x:Name="button" Content="启动/停止" HorizontalAlignment="Left" Margin="10,309,0,0" VerticalAlignment="Top" Height="66" Width="102" Click="Button_Click"/>
+        <Button x:Name="button" Content="启动/停止" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Height="42" Width="102" Click="Button_StartStop_Click"/>
         <TextBox HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="使用.Net9的最新框架" VerticalAlignment="Top" Width="390" Height="86" FontSize="16"/>
-        <Button Content="UI控制" HorizontalAlignment="Left" Margin="220,309,0,0" VerticalAlignment="Top" Height="66" Width="107" Click="Button_Click_1"/>
-        <Button x:Name="btn_Close" Content="直接关闭" HorizontalAlignment="Left" Margin="448,309,0,0" VerticalAlignment="Top" Height="66" Width="106" Click="Btn_Close_Click"/>
+        <Button x:Name="btn_UI" Content="UI控制" HorizontalAlignment="Left" Margin="117,101,0,0" VerticalAlignment="Top" Height="42" Width="107" Click="Button_UI_Click"/>
+        <Button x:Name="btn_Close" Content="直接关闭" HorizontalAlignment="Left" Margin="229,101,0,0" VerticalAlignment="Top" Height="42" Width="106" Click="Btn_Close_Click"/>
+        <TextBox x:Name="tb_Show" Margin="405,10,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Height="160" IsReadOnly="True"/>
+        <Button x:Name="btn_Open" Content="打开PPT" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" Width="102" Height="42" Click="Btn_Open_Click"/>
+        <Button x:Name="btn_Close1" Content="关闭PPT" HorizontalAlignment="Left" Margin="117,148,0,0" VerticalAlignment="Top" Height="42" Width="107" Click="Btn_ClosePPT_Click"/>
 
     </Grid>
 </Window>

@@ -10,7 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TimerLib\TimerLib.csproj" />
+    <ProjectReference Include="..\PPTLib\PPTLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Function\" />
   </ItemGroup>
 
 </Project>

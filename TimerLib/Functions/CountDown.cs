@@ -144,8 +144,8 @@ namespace TimerLib.Functions
         /// <summary>
         /// 计时器每次Tick时的额外操作(不用在此类中编写倒计时变化，且0时刻不会引发此事件)
         /// </summary>
-        public event EventHandler? TimerTickEvent;
-        private void OnTimerTickEvent() => TimerTickEvent?.Invoke(this, EventArgs.Empty);
+        public event EventHandler<int>? TimerTickEvent;
+        private void OnTimerTickEvent(int timeLeft) => TimerTickEvent?.Invoke(this, timeLeft);
 
 
         private void LoadingParas(int cdSeconds, Brush cdColor, int wnSeconds, Brush wnColor, int timerInterval, bool allowUIControl)
@@ -185,7 +185,7 @@ namespace TimerLib.Functions
                 //但这里的使用和参考文献还有不同，不是this.Dispatcher.Invoke而是timerWindow?.Dispatcher.Invoke。
             }
             else
-            { OnTimerTickEvent(); }
+            { OnTimerTickEvent(TimeLeft); }
         }
         private static string DisplayFormat(int input)
         {
@@ -218,13 +218,21 @@ namespace TimerLib.Functions
             if (isTimerWindowOpened == false)
             {
                 isTimerWindowOpened = true;
-                timerWindow = new(DisplayFormat(TimeLeft), TimeLeft > warningTimeSet ? countdownColor : warningColor, IsUIOperatesAllowed);
-                timerWindow.BeforeTimerWindowClosed += TimerWindow_BeforeTimerWindowClosed;
-                timerWindow.RightClickMenuItemClicked += TimerWindow_RightClickMenuItemClicked;
-                timerWindow.PauseClicked += TimerWindow_PauseClicked;
-                timerWindow.SettingsClicked += TimerWindow_SettingsClicked;              
-                timerWindow?.Show();
+
+                //《WPF 之 调用线程必须为 STA,因为许多 UI 组件都需要》
+                //https://www.cnblogs.com/xinaixia/p/5706096.html
+                Application.Current.Dispatcher.BeginInvoke(() => //必须要BeginInvoke，Invoke会卡死。
+                {
+                    timerWindow = new(DisplayFormat(TimeLeft), TimeLeft > warningTimeSet ? countdownColor : warningColor, IsUIOperatesAllowed);
+                    timerWindow.BeforeTimerWindowClosed += TimerWindow_BeforeTimerWindowClosed;
+                    timerWindow.RightClickMenuItemClicked += TimerWindow_RightClickMenuItemClicked;
+                    timerWindow.PauseClicked += TimerWindow_PauseClicked;
+                    timerWindow.SettingsClicked += TimerWindow_SettingsClicked;
+                    timerWindow?.Show();
+                });
             }
+            else
+            { }
             mainTimer?.Start();
             IsTimerRunning = true;            
         }
