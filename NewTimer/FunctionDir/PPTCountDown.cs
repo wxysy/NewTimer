@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,58 +23,47 @@ namespace NewTimer.FunctionDir
         public bool IsZeroEventActived { get; set; } = true;
         #endregion
 
-        private void CountDown_ZeroEvent(object? sender, EventArgs e)
-        {
-            if (IsZeroEventActived)
-            {
-                progress?.Report($"0时刻事件引发");
-                Component_PPTPlay?.PPTClose();
-            }
-            else
-            { }
-        }
-
-        private void TimerClosing_Event(object? sender, int e)
-        {
-            if (e == 0) //0时刻时直接执行0时刻事件
-                return;
-            progress?.Report($"剩余时间：{e}s");
-            Component_PPTPlay?.PPTClose();
-        }
-
-        private void TimerTick_Event(object? sender, int e)
-        {
-            progress?.Report($"剩余时间：{e}s");
-        }
-
-        private void PPTShowBegin_Event(object? sender, EventArgs e)
-        {
-            Component_Timer = TimerStarter.CreatCountDownTimer(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, false, CountDown_ZeroEvent, TimerClosing_Event, TimerTick_Event);
-            Component_Timer.StartOrStop();
-        }
-
-        private void PPTShowBegin_End(object? sender, EventArgs e)
-        {
-            Component_Timer?.Close();
-            Component_Timer = null;
-        }
-
         /// <summary>
         /// 打开PPT并启动倒计时窗体
         /// </summary>
         /// <param name="filePath">PPT文件路径</param>
         public void PPTOpen(string filePath)
         {
+            progress?.Report($"|打开PPT|{Path.GetFileName(filePath)}...");
             Component_PPTPlay = PPTStarter.CreatPPTPlay(PPTShowBegin_Event, PPTShowBegin_End);
             Component_PPTPlay?.PPTOpen(filePath);
         }
-
-        /// <summary>
-        /// 关闭PPT并关闭倒计时窗体
-        /// </summary>
-        public void PPTClose()
+        private void PPTShowBegin_Event(object? sender, EventArgs e)
         {
+            Component_Timer = TimerStarter.CreatCountDownTimer(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, false, CountDown_ZeroEvent, TimerClosing_Event, TimerTick_Event);
+            Component_Timer.StartOrStop();
+        }
+        private void PPTShowBegin_End(object? sender, EventArgs e)
+        {
+            Component_Timer?.Close();
+            if (Component_Timer != null)
+                Component_Timer = null;
+        }
+        private void CountDown_ZeroEvent(object? sender, EventArgs e)
+        {
+            if (IsZeroEventActived)
+            {
+                progress?.Report($"|执行0时刻事件|关闭PPT...");
+                Component_PPTPlay?.PPTClose();
+            }
+            else
+            { }
+        }
+        private void TimerClosing_Event(object? sender, int e)
+        {
+            if (e == 0) //0时刻时直接执行0时刻事件
+                return;
+            progress?.Report($"|执行关闭计时器事件|关闭PPT，剩余时间：{e}s...");
             Component_PPTPlay?.PPTClose();
         }
+        private void TimerTick_Event(object? sender, int e)
+        {
+            progress?.Report($"|计时器运行中|剩余时间：{e}s...");
+        }       
     }
 }

@@ -96,9 +96,17 @@ namespace NewTimer
         }
         private void ZeroEvent(object? sender, EventArgs e)
         {
-            if (cb_IsZeroEventActived.IsChecked == true)
-                progress.Report("时间到");
+            cb_IsZeroEventActived.Dispatcher.Invoke(() =>
+            {
+                if (cb_IsZeroEventActived.IsChecked == true)
+                    progress.Report("时间到");
+            });           
         }
         #endregion
+
+        private void Tb_Show_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            tb_Show.ScrollToEnd();
+        }
     }
 }
