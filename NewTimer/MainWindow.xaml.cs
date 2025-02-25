@@ -30,16 +30,19 @@ namespace NewTimer
         #region 属性和字段
         IProgress<string> progress;
         PPTCountDown? pptCD;
+        CountDownTimer? separateTimer; 
         public ObservableCollection<string> DGItems { get; set; } = [];
         #endregion
 
         public MainWindow()
         {
             InitializeComponent();
+            var brushList = new Brush[] { Brushes.Red, Brushes.Blue, Brushes.Black };
+            cb_CDTotalColor.ItemsSource = brushList;
+            cb_CDWarnColor.ItemsSource = brushList;
             this.DataContext = this;
 
-            progress = new Progress<string>(p => tb_Show.Text += $"{p}\n");
-            pptCD = new(12, Brushes.Blue, 5, Brushes.Red, 1, progress); //初始化默认值
+            progress = new Progress<string>(p => tb_Show.Text += $"{p}\n");           
         }
 
         #region PPT+Timer 
@@ -55,21 +58,46 @@ namespace NewTimer
             }
         }
         private void Btn_Open_Click(object sender, RoutedEventArgs e)
-        {           
+        {
+            pptCD ??= new(12, Brushes.Blue, 5, Brushes.Red, 1, progress); //初始化默认值
+            separateTimer = null;
+
             var selectPath = dataGrid.SelectedItem as string;
             string[] extensionList = [".pptx", ".ppt"];
             if (File.Exists(selectPath))
                 if (extensionList.Contains(System.IO.Path.GetExtension(selectPath)))
                     pptCD?.PPTOpen(selectPath);
         }
-        private void Btn_ClosePPT_Click(object sender, RoutedEventArgs e)
-        {
-            pptCD?.PPTClose();
-        }
         private void Btn_SetPara_Click(object sender, RoutedEventArgs e)
         {
-            pptCD = new(int.Parse(tb_CDTotalTime.Text), Brushes.Blue, int.Parse(tb_CDWarnTime.Text), Brushes.Red, int.Parse(tb_CDRefresh.Text), progress); //设定主要参数
-            progress.Report("参数已设定");
+            try
+            {
+                pptCD = new(int.Parse(tb_CDTotalTime.Text), (Brush)cb_CDTotalColor.SelectedItem, int.Parse(tb_CDWarnTime.Text), (Brush)cb_CDWarnColor.SelectedItem, int.Parse(tb_CDRefresh.Text), progress)
+                {
+                    IsZeroEventActived = cb_IsZeroEventActived.IsChecked == true
+                }; //设定主要参数
+                separateTimer = TimerStarter.CreatCountDownTimer(int.Parse(tb_CDTotalTime.Text), (Brush)cb_CDTotalColor.SelectedItem, int.Parse(tb_CDWarnTime.Text), (Brush)cb_CDWarnColor.SelectedItem, int.Parse(tb_CDRefresh.Text), true, ZeroEvent, null, null);
+                progress.Report("参数已设定");
+            }
+            catch (Exception ex)
+            {
+                progress.Report(ex.Message);
+            }            
+        }
+        #endregion
+
+        #region 单独启动计时器
+        private void Btn_OpenTimer_Click(object sender, RoutedEventArgs e)
+        {
+            separateTimer ??= separateTimer = TimerStarter.CreatCountDownTimer(12, Brushes.Blue, 5, Brushes.Red, 1, true, ZeroEvent, null, null);
+            pptCD = null;
+
+            separateTimer?.StartOrStop();
+        }
+        private void ZeroEvent(object? sender, EventArgs e)
+        {
+            if (cb_IsZeroEventActived.IsChecked == true)
+                progress.Report("时间到");
         }
         #endregion
     }

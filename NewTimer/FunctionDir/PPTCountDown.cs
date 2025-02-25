@@ -19,12 +19,18 @@ namespace NewTimer.FunctionDir
         IProgress<string>? progress = pg;
         public PPTPlay? Component_PPTPlay { get; private set; }
         public CountDownTimer? Component_Timer { get; private set; }
+        public bool IsZeroEventActived { get; set; } = true;
         #endregion
 
         private void CountDown_ZeroEvent(object? sender, EventArgs e)
         {
-            progress?.Report($"0时刻事件引发");
-            Component_PPTPlay?.PPTClose();
+            if (IsZeroEventActived)
+            {
+                progress?.Report($"0时刻事件引发");
+                Component_PPTPlay?.PPTClose();
+            }
+            else
+            { }
         }
 
         private void TimerClosing_Event(object? sender, int e)
