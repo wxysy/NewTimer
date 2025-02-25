@@ -198,7 +198,7 @@ namespace TimerLib.MVVMViews
         private void OnPauseClicked(string? para) => PauseClicked?.Invoke(this, para);
 
         /// <summary>
-        /// 点击设定时的动作
+        /// 点击设定按钮时的动作
         /// </summary>
         public event EventHandler<string?>? SettingsClicked;
         private void OnSettingsClicked(string? para) => SettingsClicked?.Invoke(this, para);

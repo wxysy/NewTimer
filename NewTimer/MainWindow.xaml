@@ -4,16 +4,59 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NewTimer"
+        xmlns:localBinding="clr-namespace:NewTimer.FunctionDir.BindingDir"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <localBinding:DataGridIndexConverter x:Key="dgRowToIndexConverter"/>
+            <localBinding:DGRowNameCov x:Key="dgRowToFileNameCov"/>
+            <localBinding:DGRowNoteCov x:Key="dgRowToFileNoteCov"/>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <Button x:Name="button" Content="启动/停止" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Height="42" Width="102" Click="Button_StartStop_Click"/>
-        <TextBox HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="使用.Net9的最新框架" VerticalAlignment="Top" Width="390" Height="86" FontSize="16"/>
-        <Button x:Name="btn_UI" Content="UI控制" HorizontalAlignment="Left" Margin="117,101,0,0" VerticalAlignment="Top" Height="42" Width="107" Click="Button_UI_Click"/>
-        <Button x:Name="btn_Close" Content="直接关闭" HorizontalAlignment="Left" Margin="229,101,0,0" VerticalAlignment="Top" Height="42" Width="106" Click="Btn_Close_Click"/>
-        <TextBox x:Name="tb_Show" Margin="405,10,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Height="160" IsReadOnly="True"/>
-        <Button x:Name="btn_Open" Content="打开PPT" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" Width="102" Height="42" Click="Btn_Open_Click"/>
-        <Button x:Name="btn_Close1" Content="关闭PPT" HorizontalAlignment="Left" Margin="117,148,0,0" VerticalAlignment="Top" Height="42" Width="107" Click="Btn_ClosePPT_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="207*"/>
+            <ColumnDefinition Width="193*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="tb_Show" Margin="10,10,10,10" TextWrapping="Wrap" Text="TextBox" IsReadOnly="True" Grid.Column="1" Grid.Row="1"/>
+        <Button x:Name="btn_Open" Content="打开PPT" HorizontalAlignment="Left" Margin="297,58,0,0" VerticalAlignment="Top" Width="103" Height="42" Click="Btn_Open_Click"/>
+        <Button x:Name="btn_Close" Content="关闭PPT" HorizontalAlignment="Left" Margin="297,105,0,0" VerticalAlignment="Top" Height="42" Width="103" Click="Btn_ClosePPT_Click"/>
+        <GroupBox x:Name="groupBox1" Header="PPT播放列表" Margin="10,10,10,10" Grid.Column="1">
+            <DataGrid x:Name="dataGrid" ItemsSource="{Binding DGItems}" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionMode="Single" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" Height="273" VerticalAlignment="Top">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="序号"
+                        Binding="{Binding Converter={StaticResource dgRowToIndexConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"/>
+                    <DataGridTextColumn Header="PPT文件名"
+                        Binding="{Binding Converter={StaticResource dgRowToFileNameCov}}"/>
+                    <DataGridTextColumn Header="备注"
+                        Binding="{Binding Converter={StaticResource dgRowToFileNoteCov}}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <Button x:Name="btn_ReadFile" Content="打开文件夹" HorizontalAlignment="Left" Margin="297,11,0,0" VerticalAlignment="Top" Height="42" Width="103" Click="Btn_ReadFile_Click"/>
+        <GroupBox Header="参数设定" Margin="10,11,122,0" Height="136" VerticalAlignment="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="52*"/>
+                    <ColumnDefinition Width="83*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="倒计时时长(s)" Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="84" HorizontalContentAlignment="Right"/>
+                <Label Content="告警时长(s)" Margin="0,40,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="84" HorizontalContentAlignment="Right"/>
+                <TextBox x:Name="tb_CDTotalTime" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="25" VerticalAlignment="Top" Width="73" Height="25" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="tb_CDWarnTime" Grid.Column="1" HorizontalAlignment="Left" Margin="10,40,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="73" Height="25" VerticalContentAlignment="Center"/>
+                <ComboBox x:Name="cb_CDTotalColor" Grid.Column="1" HorizontalAlignment="Left" Margin="88,10,0,0" VerticalAlignment="Top" Width="68" Height="25"/>
+                <ComboBox x:Name="cb_CDWarnColor" Grid.Column="1" HorizontalAlignment="Left" Margin="88,40,0,0" VerticalAlignment="Top" Width="68" Height="25"/>
+                <Label Content="刷新频率(s)" Margin="0,70,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="84" HorizontalContentAlignment="Right"/>
+                <TextBox x:Name="tb_CDRefresh" Grid.Column="1" HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="73" Height="25" VerticalContentAlignment="Center"/>
+                <Button x:Name="btn_SetPara" Grid.Column="1" Content="设定" HorizontalAlignment="Left" Margin="88,70,0,0" VerticalAlignment="Top" Height="25" Width="68" Click="Btn_SetPara_Click"/>
+
+            </Grid>
+        </GroupBox>
 
     </Grid>
 </Window>

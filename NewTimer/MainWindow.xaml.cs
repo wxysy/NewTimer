@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.ObjectModel;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -10,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using NewTimer.Function;
+using Infrastructure.Files.FileCommon;
+using NewTimer.FunctionDir;
 using PPTLib.Functions;
 using TimerLib;
 using TimerLib.Functions;
@@ -24,60 +27,49 @@ namespace NewTimer
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region 属性和字段
+        IProgress<string> progress;
+        PPTCountDown? pptCD;
+        public ObservableCollection<string> DGItems { get; set; } = [];
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
+
             progress = new Progress<string>(p => tb_Show.Text += $"{p}\n");
-            timer = TimerStarter.CreatCountDownTimer(12, Brushes.Blue, 5, Brushes.Red, 1, false, CountDown_ZeroEvent, TimerClose_Event, TimerTick_Event);
-
-            pptCD = new(12, Brushes.Blue, 5, Brushes.Red, 1, progress); //设定主要参数
+            pptCD = new(12, Brushes.Blue, 5, Brushes.Red, 1, progress); //初始化默认值
         }
-        IProgress<string> progress;
-        PPTCountDown pptCD;
 
-        #region Timer测试
-        CountDownTimer timer;
-        private void CountDown_ZeroEvent(object? sender, EventArgs e)
+        #region PPT+Timer 
+        private void Btn_ReadFile_Click(object sender, RoutedEventArgs e)
         {
-            progress.Report("0时刻事件引发");
-        }
-        private void TimerClose_Event(object? sender, int e)
-        {
-            if (e == 0) //0时刻时直接执行0时刻事件
+            var folderPath = MyFilePath.SelectFolderPath(null);
+            if (string.IsNullOrEmpty(folderPath))
                 return;
-            progress.Report($"剩余时间：{e}s");
+            var filePaths = MyFilePath.GetFilePathInSelectedFolder(null, folderPath);
+            foreach (var item in filePaths)
+            {
+                DGItems.Add(item);
+            }
         }
-        private void TimerTick_Event(object? sender, int e)
-        {
-            progress.Report($"触发：Tick");
-        }
-
-        private void Button_StartStop_Click(object sender, RoutedEventArgs e)
-        {
-            timer.StartOrStop();
-        }
-
-        private void Button_UI_Click(object sender, RoutedEventArgs e)
-        {
-            var state = !(timer.IsUIOperatesAllowed);
-            timer.AllowUIOperations(state);
-        }
-
-        private void Btn_Close_Click(object sender, RoutedEventArgs e)
-        {
-            timer.Close();
-        }
-        #endregion
-
-        #region PPT+Timer测试
-        string filePath = @"D:\ProgrammingProjects\2-Testing\test.pptx";
         private void Btn_Open_Click(object sender, RoutedEventArgs e)
-        {
-            pptCD.PPTOpen(filePath);
+        {           
+            var selectPath = dataGrid.SelectedItem as string;
+            string[] extensionList = [".pptx", ".ppt"];
+            if (File.Exists(selectPath))
+                if (extensionList.Contains(System.IO.Path.GetExtension(selectPath)))
+                    pptCD?.PPTOpen(selectPath);
         }
         private void Btn_ClosePPT_Click(object sender, RoutedEventArgs e)
         {
-            pptCD.PPTClose();
+            pptCD?.PPTClose();
+        }
+        private void Btn_SetPara_Click(object sender, RoutedEventArgs e)
+        {
+            pptCD = new(int.Parse(tb_CDTotalTime.Text), Brushes.Blue, int.Parse(tb_CDWarnTime.Text), Brushes.Red, int.Parse(tb_CDRefresh.Text), progress); //设定主要参数
+            progress.Report("参数已设定");
         }
         #endregion
     }

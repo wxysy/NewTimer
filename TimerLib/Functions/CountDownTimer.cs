@@ -237,7 +237,7 @@ namespace TimerLib.Functions
             IsTimerRunning = true;            
         }
 
-        public void Close() => timerWindow?.Dispatcher.Invoke(() => timerWindow.Close());//timerWindow?.Close();这里好像也行
+        public void Close() => timerWindow?.Dispatcher.Invoke(() => timerWindow.Close());//timerWindow?.Close();这里好像不行
         public void AllowUIOperations(bool state) 
         {
             IsUIOperatesAllowed = state;
@@ -271,7 +271,7 @@ namespace TimerLib.Functions
             settingsView.CallBack += (sender, e) =>
             {
                 countdownTimeSet = e[0];
-                warningTimeSet= e[1];
+                warningTimeSet = e[1];
                 Reset();
             };
             settingsView.Show();

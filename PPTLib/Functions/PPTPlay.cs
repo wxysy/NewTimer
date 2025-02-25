@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using Office2024Core = Microsoft.Office.Core;
 using Office2024PPT = Microsoft.Office.Interop.PowerPoint;
 
@@ -114,15 +115,14 @@ namespace PPTLib.Functions
         {
             if (pptApp != null)  //防止连续打开多个PPT程序
                 return;
+
             pptApp = new Office2024PPT.Application(); //{ Visible = Office2024Core.MsoTriState.msoTrue, }; //设置为可见(不要设，设定后程序界面就出现了)
             pptApp.SlideShowBegin += PptApp_SlideShowBegin; //PPT开始放映
             pptApp.SlideShowEnd += PptApp_SlideShowEnd; //PPT结束放映
-
-            //pptApp.Assistant.On = false; //Error：Office Assistant 没装。Prevent Office Assistant from displaying alert messages:           
         }
         private void PptApp_SlideShowBegin(Office2024PPT.SlideShowWindow Wn)
         {
-            IsPPTShowed = false;
+            IsPPTShowed = true;
             OnPPTShowBegin();
         }
         private void PptApp_SlideShowEnd(Office2024PPT.Presentation Pres)
@@ -137,7 +137,18 @@ namespace PPTLib.Functions
             {
                 if (File.Exists(filepath) != true)
                     return false;
-                pptPresentation = pptApp!.Presentations.Open(filepath, Office2024Core.MsoTriState.msoTrue, Office2024Core.MsoTriState.msoFalse, Office2024Core.MsoTriState.msoTrue);
+
+                //【付费】《调用Application.Quit()方法时报"This operation cannot be performed in this event handler."错误的一种解决方法》
+                // https://blog.csdn.net/Neils03/article/details/9878575
+                //在子线程中打开并播放PPTX文件时遇到的问题
+                //第一次打开一个文件并结束幻灯片时一切顺利，但是重复几次同样的操作，就会报出"Application (unknown member) : Invalid request.  This operation cannot be performed in this event handler."的COMException异常。
+                //先后进行了多次修改调用的位置（不使用子线程和使用子线程调用），但是总是运行到Quit方法时报错，从Google上也没有找到明确的答案，只是说COM对象是出于STA模式下。
+                //后来突然看到了Open方法的参数说明：
+                //其中WithWindow开始使用的是默认值，即MsoTriState.msoTrue。这样在关闭幻灯片时，如果不调用Quit方法会留下PPT窗口。而当WithWindow设置为MsoTriState.msoFalse，则关闭幻灯片不会留下窗口，这样就不用调用Quit方法了。
+                //当我的程序关闭时再调用Application.Quit()方法，这样能保证即关闭了PPT程序，同时也不会因为打开几次PPT文件而报错了。
+                //至于为什么不允许在事件中调用Quit，暂时还不清楚。
+
+                pptPresentation = pptApp!.Presentations.Open(filepath, Office2024Core.MsoTriState.msoTrue, Office2024Core.MsoTriState.msoFalse, Office2024Core.MsoTriState.msoFalse);
                 pptSlideShowSettings = pptPresentation.SlideShowSettings;
                 pptSlideShowSettings!.ShowType = Office2024PPT.PpSlideShowType.ppShowTypeSpeaker; //设置播放模式
                 pptSlideShowSettings.Run();
@@ -156,7 +167,7 @@ namespace PPTLib.Functions
                     pptPresentation?.Close();
                     pptPresentation = null;
                 }
-                //if (pptApp != null) //pptApp无需关闭，还有用。
+                //if (pptApp != null) //pptApp不能关闭，详见PPTOpen方法。
                 //{
                 //    pptApp?.Quit();
                 //    pptApp = null;
@@ -189,8 +200,8 @@ namespace PPTLib.Functions
             {
                 if (p.ProcessName.Equals(progressName, StringComparison.OrdinalIgnoreCase))
                 {
-                    //p.Kill();//太刚猛，没必要
-                    p.CloseMainWindow();//Process.CloseMainWindow是GUI程序的最友好结束方式
+                    p.Kill();//太刚猛，没必要
+                    //p.CloseMainWindow();//Process.CloseMainWindow是GUI程序的最友好结束方式
                 }
             }
         }

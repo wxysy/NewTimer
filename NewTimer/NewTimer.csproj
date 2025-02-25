@@ -10,7 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Files\Infrastructure.Files.csproj" />
     <ProjectReference Include="..\PPTLib\PPTLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewDir\" />
   </ItemGroup>
 
 </Project>
