@@ -12,6 +12,7 @@
             <localBinding:DataGridIndexConverter x:Key="dgRowToIndexConverter"/>
             <localBinding:DGRowNameCov x:Key="dgRowToFileNameCov"/>
             <localBinding:DGRowNoteCov x:Key="dgRowToFileNoteCov"/>
+            <localBinding:TimeMultiValueConverter x:Key="timeCov"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid RenderTransformOrigin="0.436,0.451">
@@ -82,11 +83,20 @@
                 <Label Content="截止时间" Margin="0,40,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="84" HorizontalContentAlignment="Right"/>
                 <TextBox x:Name="tb_StartTime" Grid.Column="1" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="2025/01/24T15:01" VerticalAlignment="Top" Width="146" Height="25" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="tb_EndTime" Grid.Column="1" HorizontalAlignment="Center" Margin="0,40,0,0" TextWrapping="Wrap" Text="2025/01/24T18:01" VerticalAlignment="Top" Width="146" Height="25" VerticalContentAlignment="Center"/>
-                <Button x:Name="btn_SetParaScore" Grid.Column="1" Content="设定" HorizontalAlignment="Left" Margin="94,70,0,0" VerticalAlignment="Top" Height="50" Width="62"/>
+                <Button x:Name="btn_SetParaScore" Grid.Column="1" Content="设定" HorizontalAlignment="Left" Margin="94,70,0,0" VerticalAlignment="Top" Height="50" Width="62" IsEnabled="False"/>
 
             </Grid>
         </GroupBox>
-        <Button x:Name="btn_CaculateScore" Content="好差评算分" HorizontalAlignment="Left" Margin="297,174,0,0" VerticalAlignment="Top" Height="42" Width="103"/>
+        <Button x:Name="btn_CaculateScore" Content="好差评算分" Command="{Binding ScoreCa.StartCMD}" HorizontalAlignment="Left" Margin="297,174,0,0" VerticalAlignment="Top" Height="42" Width="103">
+            <Button.CommandParameter>
+                <MultiBinding Converter="{StaticResource ResourceKey=timeCov}">
+                    <MultiBinding.Bindings>
+                        <Binding Path="Text" ElementName="tb_StartTime"/>
+                        <Binding Path="Text" ElementName="tb_EndTime"/>
+                    </MultiBinding.Bindings>
+                </MultiBinding>
+            </Button.CommandParameter>
+        </Button>
 
     </Grid>
 </Window>

@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Files\Infrastructure.Files.csproj" />
     <ProjectReference Include="..\PPTLib\PPTLib.csproj" />
+    <ProjectReference Include="..\ScoreCaculatorLib\ScoreCaculatorLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

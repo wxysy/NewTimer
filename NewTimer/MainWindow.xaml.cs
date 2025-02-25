@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Infrastructure.Files.FileCommon;
 using NewTimer.FunctionDir;
 using PPTLib.Functions;
+using ScoreCaculatorLib;
 using TimerLib;
 using TimerLib.Functions;
 using TimerLib.MVVMViews;
@@ -32,6 +33,7 @@ namespace NewTimer
         PPTCountDown? pptCD;
         CountDownTimer? separateTimer; 
         public ObservableCollection<string> DGItems { get; set; } = [];
+        public ScoreCaculator ScoreCa { get; set; }
         #endregion
 
         public MainWindow()
@@ -42,7 +44,8 @@ namespace NewTimer
             cb_CDWarnColor.ItemsSource = brushList;
             this.DataContext = this;
 
-            progress = new Progress<string>(p => tb_Show.Text += $"{p}\n");           
+            progress = new Progress<string>(p => tb_Show.Text += $"{p}\n");
+            ScoreCa = new(progress);
         }
 
         #region PPT+Timer 
