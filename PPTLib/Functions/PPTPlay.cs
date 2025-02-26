@@ -182,7 +182,7 @@ namespace PPTLib.Functions
             catch (Exception)
             { return false; }
         }
-        private static void ClosePPTProgram(string progressName)
+        private static void ClosePPTProgram(string processName)
         {
             /* 参考
              * 1、《C#实现关闭某个指定程序》
@@ -198,7 +198,7 @@ namespace PPTLib.Functions
             Process[] processes = Process.GetProcesses();
             foreach (Process p in processes)
             {
-                if (p.ProcessName.Equals(progressName, StringComparison.OrdinalIgnoreCase))
+                if (p.ProcessName.Equals(processName, StringComparison.OrdinalIgnoreCase))
                 {
                     p.Kill();//太刚猛，没必要
                     //p.CloseMainWindow();//Process.CloseMainWindow是GUI程序的最友好结束方式

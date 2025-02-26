@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NewTimer"
         xmlns:localBinding="clr-namespace:NewTimer.FunctionDir.BindingDir"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" ResizeMode="CanMinimize">
     <Window.Resources>
         <ResourceDictionary>
             <localBinding:DataGridIndexConverter x:Key="dgRowToIndexConverter"/>
@@ -24,16 +24,16 @@
             <ColumnDefinition Width="193*"/>
         </Grid.ColumnDefinitions>
         <TextBox x:Name="tb_Show" Margin="10,0,10,10" TextWrapping="Wrap" IsReadOnly="True" Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Visible" TextChanged="Tb_Show_TextChanged"/>
-        <Button x:Name="btn_Open" Content="打开PPT并计时" HorizontalAlignment="Left" Margin="297,58,0,0" VerticalAlignment="Top" Width="103" Height="42" Click="Btn_Open_Click"/>
+        <Button x:Name="btn_Open" Content="打开选定" HorizontalAlignment="Left" Margin="297,58,0,0" VerticalAlignment="Top" Width="103" Height="42" Click="Btn_Open_Click"/>
         <Button x:Name="btn_OpenTimer" Content="直接启动计时器" HorizontalAlignment="Left" Margin="297,117,0,0" VerticalAlignment="Top" Height="42" Width="103" Click="Btn_OpenTimer_Click"/>
         <GroupBox x:Name="groupBox1" Header="PPT播放列表" Margin="10,10,10,10" Grid.Column="1">
             <DataGrid x:Name="dataGrid" ItemsSource="{Binding DGItems}" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionMode="Single" AutoGenerateColumns="False" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" Height="273" VerticalAlignment="Top">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="序号"
                         Binding="{Binding Converter={StaticResource dgRowToIndexConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"/>
-                    <DataGridTextColumn Header="PPT文件名"
+                    <DataGridTextColumn Header="文件名"
                         Binding="{Binding Converter={StaticResource dgRowToFileNameCov}}"/>
-                    <DataGridTextColumn Header="备注"
+                    <DataGridTextColumn Header="文件类型"
                         Binding="{Binding Converter={StaticResource dgRowToFileNoteCov}}"/>
                 </DataGrid.Columns>
             </DataGrid>

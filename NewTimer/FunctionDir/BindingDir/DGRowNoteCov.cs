@@ -18,9 +18,9 @@ namespace NewTimer.FunctionDir.BindingDir
                 var ext = Path.GetExtension(path);
                 string[] extensionList = [".pptx", ".ppt"];
                 if (extensionList.Contains(ext))
-                    return string.Empty;
+                    return "PPT文件";
                 else
-                    return "非PPT文件";
+                    return ext;
             }                
             else
                 return value;
