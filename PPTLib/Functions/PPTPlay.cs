@@ -204,6 +204,16 @@ namespace PPTLib.Functions
                     //p.CloseMainWindow();//Process.CloseMainWindow是GUI程序的最友好结束方式
                 }
             }
+
+            //【启动程序】
+            //var startInfo = new ProcessStartInfo()
+            //{
+            //    ArgumentList = { "abc", "def" }, //启动参数列表。MainWindow(string[]? startUpArgs)
+            //    FileName = @".\WpfPluginManager.exe",
+            //    WorkingDirectory = Directory.GetCurrentDirectory(),
+            //    UseShellExecute = true,
+            //};
+            //var ps = Process.Start(startInfo);
         }
         #endregion
 
