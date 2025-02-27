@@ -30,7 +30,7 @@ namespace NewTimer.FunctionDir
         /// <param name="filePath">PPT文件路径</param>
         public void PPTOpen(string filePath)
         {
-            PPTPlay.ClosePPTProgram("POWERPNT");//必须有此句，终于找到取消0时刻事件后，再启动ppt显示两个计时器的原因了。本质上不是两个计时器，而是有两个PPT程序。
+            PPTPlay.ClosePPTProgram("POWERPNT");//必须有此句，终于找到取消0时刻事件后，再启动ppt显示两个计时器的原因了。本质上不是两个计时器，而是有两个PPT程序。 
 
             progress?.Report($"|打开PPT|{Path.GetFileName(filePath)}...");
             Component_PPTPlay = PPTStarter.CreatPPTPlay(PPTShowBegin_Event, PPTShowBegin_End);
