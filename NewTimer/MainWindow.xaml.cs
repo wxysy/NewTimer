@@ -72,7 +72,7 @@ namespace NewTimer
                 string[] extensionList = [".pptx", ".ppt"];
                 string ext = System.IO.Path.GetExtension(selectPath);
 
-                pptCD = null;//必须先清空，否则自动关闭后会启动2个计时器。
+                pptCD = null;
                 separateTimer = null;
                 if (extensionList.Contains(ext)) //PPT文件的处理
                 {
