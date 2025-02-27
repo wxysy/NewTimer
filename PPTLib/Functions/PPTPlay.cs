@@ -182,15 +182,16 @@ namespace PPTLib.Functions
             catch (Exception)
             { return false; }
         }
-        private static void ClosePPTProgram(string progressName)
+        private static void ClosePPTProgram(string processName)
         {
             /* 参考
              * 1、《C#实现关闭某个指定程序》
              * https://blog.csdn.net/laozhuxinlu/article/details/50422057
-             * 2、《C#各种结束进程的方法详细介绍》
-             * https://blog.csdn.net/yl2isoft/article/details/54176740
+             * 2、《Process类的CloseMainWindow, Kill, Close》
              * https://www.cnblogs.com/zjoch/p/3654940.html
-             * 3、PowerPoint进程实测信息
+             * 3、《C#各种结束进程的方法详细介绍》
+             * https://blog.csdn.net/yl2isoft/article/details/54176740
+             * 4、PowerPoint进程实测信息
              * string pptProgressName = "POWERPNT";//进程名称：POWERPNT.EXE
              * string pptMainWindowTitle = "PowerPoint";
              */
@@ -198,12 +199,22 @@ namespace PPTLib.Functions
             Process[] processes = Process.GetProcesses();
             foreach (Process p in processes)
             {
-                if (p.ProcessName.Equals(progressName, StringComparison.OrdinalIgnoreCase))
+                if (p.ProcessName.Equals(processName, StringComparison.OrdinalIgnoreCase))
                 {
                     p.Kill();//太刚猛，没必要
                     //p.CloseMainWindow();//Process.CloseMainWindow是GUI程序的最友好结束方式
                 }
             }
+
+            //【启动程序】
+            //var startInfo = new ProcessStartInfo()
+            //{
+            //    ArgumentList = { "abc", "def" }, //启动参数列表。MainWindow(string[]? startUpArgs)
+            //    FileName = @".\WpfPluginManager.exe",
+            //    WorkingDirectory = Directory.GetCurrentDirectory(),
+            //    UseShellExecute = true,
+            //};
+            //var ps = Process.Start(startInfo);
         }
         #endregion
 
