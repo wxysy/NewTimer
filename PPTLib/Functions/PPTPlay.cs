@@ -187,10 +187,11 @@ namespace PPTLib.Functions
             /* 参考
              * 1、《C#实现关闭某个指定程序》
              * https://blog.csdn.net/laozhuxinlu/article/details/50422057
-             * 2、《C#各种结束进程的方法详细介绍》
-             * https://blog.csdn.net/yl2isoft/article/details/54176740
+             * 2、《Process类的CloseMainWindow, Kill, Close》
              * https://www.cnblogs.com/zjoch/p/3654940.html
-             * 3、PowerPoint进程实测信息
+             * 3、《C#各种结束进程的方法详细介绍》
+             * https://blog.csdn.net/yl2isoft/article/details/54176740
+             * 4、PowerPoint进程实测信息
              * string pptProgressName = "POWERPNT";//进程名称：POWERPNT.EXE
              * string pptMainWindowTitle = "PowerPoint";
              */
