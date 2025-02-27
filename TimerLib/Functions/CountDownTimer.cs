@@ -178,11 +178,7 @@ namespace TimerLib.Functions
             {
                 mainTimer?.Stop(); //停止计时
                 OnZeroEvent(); //执行0时刻事件
-                timerWindow?.Dispatcher.Invoke(() => timerWindow.Close());//解决“调用线程无法访问此对象，因为另一个线程拥有该对象。”引发的问题
-
-                //《C# WPF 调用线程无法访问此对象，因为另一个线程拥有该对象，解决办法》
-                //https://blog.csdn.net/YouthMe/article/details/102852580
-                //但这里的使用和参考文献还有不同，不是this.Dispatcher.Invoke而是timerWindow?.Dispatcher.Invoke。
+                Close();    
             }
             else
             { OnTimerTickEvent(TimeLeft); }
@@ -213,6 +209,7 @@ namespace TimerLib.Functions
             mainTimer?.Stop();
             IsTimerRunning = false;           
         }
+
         private void ContinueOrStart()
         {
             if (isTimerWindowOpened == false)
@@ -237,7 +234,13 @@ namespace TimerLib.Functions
             IsTimerRunning = true;            
         }
 
-        public void Close() => timerWindow?.Dispatcher.Invoke(() => timerWindow.Close());//timerWindow?.Close();这里好像不行
+        public void Close() => timerWindow?.Dispatcher.Invoke(() => //解决“调用线程无法访问此对象，因为另一个线程拥有该对象。”引发的问题
+        {
+            timerWindow?.Close();            
+            //《C# WPF 调用线程无法访问此对象，因为另一个线程拥有该对象，解决办法》
+            //https://blog.csdn.net/YouthMe/article/details/102852580
+            //但这里的使用和参考文献还有不同，不是this.Dispatcher.Invoke而是timerWindow?.Dispatcher.Invoke。
+        });
         public void AllowUIOperations(bool state) 
         {
             IsUIOperatesAllowed = state;

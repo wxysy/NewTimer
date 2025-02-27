@@ -49,7 +49,7 @@
                 <Label Content="告警时长(s)" Margin="0,40,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="84" HorizontalContentAlignment="Right"/>
                 <TextBox x:Name="tb_CDTotalTime" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="25" VerticalAlignment="Top" Width="79" Height="25" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="tb_CDWarnTime" Grid.Column="1" HorizontalAlignment="Left" Margin="10,40,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="79" Height="25" VerticalContentAlignment="Center"/>
-                <ComboBox x:Name="cb_CDTotalColor" Grid.Column="1" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" Width="62" Height="25" SelectedIndex="2">
+                <ComboBox x:Name="cb_CDTotalColor" Grid.Column="1" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" Width="62" Height="25" SelectedIndex="1">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <!--ComboBoxItem Content 没有 TextBlock Text 好用-->
@@ -69,6 +69,7 @@
                 <TextBox x:Name="tb_CDRefresh" Grid.Column="1" HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="79" Height="25" VerticalContentAlignment="Center"/>
                 <Button x:Name="btn_SetPara" Grid.Column="1" Content="设定" HorizontalAlignment="Left" Margin="94,70,0,0" VerticalAlignment="Top" Height="50" Width="62" Click="Btn_SetPara_Click"/>
                 <CheckBox x:Name="cb_IsZeroEventActived" Content="0时刻动作" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="79" Height="20" VerticalContentAlignment="Center" IsChecked="True" Grid.Column="1"/>
+                <CheckBox x:Name="cb_IsUIControlActived" Content="允许UI操作" HorizontalAlignment="Center" Margin="0,100,0,0" VerticalAlignment="Top" Width="84" Height="20" VerticalContentAlignment="Center" IsChecked="False"/>
 
             </Grid>
         </GroupBox>
