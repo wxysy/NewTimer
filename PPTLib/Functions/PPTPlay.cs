@@ -182,7 +182,7 @@ namespace PPTLib.Functions
             catch (Exception)
             { return false; }
         }
-        private static void ClosePPTProgram(string processName)
+        public static void ClosePPTProgram(string processName)
         {
             /* 参考
              * 1、《C#实现关闭某个指定程序》
