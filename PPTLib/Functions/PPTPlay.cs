@@ -174,7 +174,9 @@ namespace PPTLib.Functions
                     pptPresentation?.Close();
                     pptPresentation = null;
                 }
-                //if (pptApp != null) //pptApp不能关闭，详见PPTOpen方法。
+
+                /*pptApp不能关闭，详见PPTOpen方法。（就算添加了，也不能解决PPT隐藏应用程序问题。）*/
+                //if (pptApp != null)
                 //{
                 //    pptApp?.Quit();
                 //    pptApp = null;
