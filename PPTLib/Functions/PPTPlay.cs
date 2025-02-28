@@ -131,8 +131,15 @@ namespace PPTLib.Functions
             OnPPTShowEnd();
         }
 
+        /// <summary>
+        /// 打开并演示PPT
+        /// （【重要】再次调用该方法之前，一定要使用PPTPlay.ClosePPTProgram("POWERPNT");静态方法，关闭潜藏的PPT应用程序。）
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <returns></returns>
         public bool PPTOpen(string filepath)
-        {           
+        {
+            /****【重要】再次调用该方法之前，一定要使用PPTPlay.ClosePPTProgram("POWERPNT");静态方法，关闭潜藏的PPT应用程序。****/
             try
             {
                 if (File.Exists(filepath) != true)
