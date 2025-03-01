@@ -71,6 +71,7 @@ namespace NewTimer
                 string ext = System.IO.Path.GetExtension(selectPath);
 
                 pptCD = null;
+                separateTimer?.Close();
                 separateTimer = null;               
                 if (extensionList.Contains(ext)) //PPT文件的处理
                 {
