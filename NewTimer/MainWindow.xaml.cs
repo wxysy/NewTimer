@@ -55,6 +55,7 @@ namespace NewTimer
         #region 打开文件并启动Timer 
         private void Btn_ReadFile_Click(object sender, RoutedEventArgs e)
         {
+            DGItems.Clear();
             var folderPath = MyFilePath.SelectFolderPath(null);
             if (string.IsNullOrEmpty(folderPath))
                 return;
@@ -73,6 +74,7 @@ namespace NewTimer
                 string ext = System.IO.Path.GetExtension(selectPath);
 
                 pptCD = null;
+                separateTimer?.Close();
                 separateTimer = null;
                 if (extensionList.Contains(ext)) //PPT文件的处理
                 {
@@ -81,7 +83,7 @@ namespace NewTimer
                         IsZeroEventActived = mainSettings.IsZeroEventActived,
                         IsUIControlActived = mainSettings.IsUIControlActived,
                     }; //初始化默认值
-                    
+
                     pptCD?.PPTOpen(selectPath);
                 }
                 else //其他文件的处理
@@ -166,6 +168,7 @@ namespace NewTimer
         {
             pptCD = null;
             separateTimer?.Close();
+            separateTimer = null;
             separateTimer ??= TimerStarter.CreatCountDownTimer(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, mainSettings.IsUIControlActived, null, null, null);
             separateTimer?.StartOrStop();
         }
