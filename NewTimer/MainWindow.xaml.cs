@@ -162,7 +162,7 @@ namespace NewTimer
         private void Btn_OpenTimer_Click(object sender, RoutedEventArgs e)
         {
             pptCD = null;
-            separateTimer ??= TimerStarter.CreatCountDownTimer(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, mainSettings.IsUIControlActived, ZeroEvent, null, null);
+            separateTimer ??= TimerStarter.CreatCountDownTimer(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, mainSettings.IsUIControlActived, null, null, null);
             separateTimer?.StartOrStop();
         }
 
