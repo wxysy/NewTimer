@@ -234,13 +234,23 @@ namespace TimerLib.Functions
             IsTimerRunning = true;            
         }
 
-        public void Close() => timerWindow?.Dispatcher.Invoke(() => //解决“调用线程无法访问此对象，因为另一个线程拥有该对象。”引发的问题
+        public void Close()
         {
-            timerWindow?.Close();            
-            //《C# WPF 调用线程无法访问此对象，因为另一个线程拥有该对象，解决办法》
-            //https://blog.csdn.net/YouthMe/article/details/102852580
-            //但这里的使用和参考文献还有不同，不是this.Dispatcher.Invoke而是timerWindow?.Dispatcher.Invoke。
-        });
+            //timerWindow?.Dispatcher.InvokeShutdown(); //这会把主程序一并给关了
+            //《程序在Dispatcher.Run()处挂起 c#》
+            //https://dev59.com/hoXca4cB1Zd3GeqPLKAx
+            //但这里的使用和参考文献还有不同，参考文献给的是Dispatcher.CurrentDispatcher.InvokeShutdown();
+
+            //解决“调用线程无法访问此对象，因为另一个线程拥有该对象。”引发的问题
+            timerWindow?.Dispatcher.Invoke(() => //这种方法有潜藏的线程问题，与其他部件结合时要小心。
+            {
+                timerWindow?.Close();
+                //《C# WPF 调用线程无法访问此对象，因为另一个线程拥有该对象，解决办法》
+                //https://blog.csdn.net/YouthMe/article/details/102852580
+                //但这里的使用和参考文献还有不同，不是this.Dispatcher.Invoke而是timerWindow?.Dispatcher.Invoke。
+            });
+        }
+
         public void AllowUIOperations(bool state) 
         {
             IsUIOperatesAllowed = state;
