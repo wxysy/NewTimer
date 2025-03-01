@@ -138,7 +138,7 @@ namespace NewTimer
             return ps?.ProcessName;
         }
         #endregion
-        
+
         //参数设定
         private void Btn_SetPara_Click(object sender, RoutedEventArgs e)
         {
@@ -162,6 +162,7 @@ namespace NewTimer
         private void Btn_OpenTimer_Click(object sender, RoutedEventArgs e)
         {
             pptCD = null;
+            separateTimer?.Close();
             separateTimer ??= TimerStarter.CreatCountDownTimer(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, mainSettings.IsUIControlActived, null, null, null);
             separateTimer?.StartOrStop();
         }
