@@ -133,13 +133,13 @@ namespace PPTLib.Functions
 
         /// <summary>
         /// 打开并演示PPT
-        /// （【重要】再次调用该方法之前，一定要使用PPTPlay.ClosePPTProgram("POWERPNT");静态方法，关闭潜藏的PPT应用程序。）
+        /// （【重要】再次调用该方法之前，一定要使用ProcessCommon.CloseProcessByName("POWERPNT");静态方法，关闭潜藏的PPT应用程序。）
         /// </summary>
         /// <param name="filepath"></param>
         /// <returns></returns>
         public bool PPTOpen(string filepath)
         {
-            /****【重要】再次调用该方法之前，一定要使用PPTPlay.ClosePPTProgram("POWERPNT");静态方法，关闭潜藏的PPT应用程序。****/
+            /****【重要】再次调用该方法之前，一定要使用ProcessCommon.CloseProcessByName("POWERPNT");静态方法，关闭潜藏的PPT应用程序。****/
             try
             {
                 if (File.Exists(filepath) != true)
@@ -176,7 +176,7 @@ namespace PPTLib.Functions
                 }
 
                 /*pptApp不能关闭，详见PPTOpen方法。（就算添加了，也不能解决PPT隐藏应用程序问题。）*/
-                //if (pptApp != null)
+                //if (pptApp != null) 
                 //{
                 //    pptApp?.Quit();
                 //    pptApp = null;
@@ -185,46 +185,12 @@ namespace PPTLib.Functions
 
                 //Office2024新问题：前面操作关闭只能关闭文档，不能关闭PPT程序。
                 //添加一个C#关闭进程方法
-                ClosePPTProgram(pptProgressName);
+                ProcessCommon.CloseProcessByName(pptProgressName);
                 return true;
             }
             catch (Exception)
             { return false; }
-        }
-        public static void ClosePPTProgram(string processName)
-        {
-            /* 参考
-             * 1、《C#实现关闭某个指定程序》
-             * https://blog.csdn.net/laozhuxinlu/article/details/50422057
-             * 2、《Process类的CloseMainWindow, Kill, Close》
-             * https://www.cnblogs.com/zjoch/p/3654940.html
-             * 3、《C#各种结束进程的方法详细介绍》
-             * https://blog.csdn.net/yl2isoft/article/details/54176740
-             * 4、PowerPoint进程实测信息
-             * string pptProgressName = "POWERPNT";//进程名称：POWERPNT.EXE
-             * string pptMainWindowTitle = "PowerPoint";
-             */
-
-            Process[] processes = Process.GetProcesses();
-            foreach (Process p in processes)
-            {
-                if (p.ProcessName.Equals(processName, StringComparison.OrdinalIgnoreCase))
-                {
-                    p.Kill();//太刚猛，没必要
-                    //p.CloseMainWindow();//Process.CloseMainWindow是GUI程序的最友好结束方式
-                }
-            }
-
-            //【启动程序】
-            //var startInfo = new ProcessStartInfo()
-            //{
-            //    ArgumentList = { "abc", "def" }, //启动参数列表。MainWindow(string[]? startUpArgs)
-            //    FileName = @".\WpfPluginManager.exe",
-            //    WorkingDirectory = Directory.GetCurrentDirectory(),
-            //    UseShellExecute = true,
-            //};
-            //var ps = Process.Start(startInfo);
-        }
+        }      
         #endregion
 
     }
