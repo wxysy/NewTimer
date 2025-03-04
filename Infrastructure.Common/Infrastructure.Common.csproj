@@ -1,13 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+	  <TargetFramework>net8.0-windows</TargetFramework>
 	  <Nullable>enable</Nullable>
 	  <UseWPF>true</UseWPF>
 	  <UseWindowsForms>true</UseWindowsForms>
 	  <Platforms>AnyCPU;x64</Platforms>
 	  <PlatformTarget>x64</PlatformTarget>
-	  <AssemblyVersion>1.3.1.0</AssemblyVersion>
+	  <!--不能设定AssemblyName，否则会改了项目名称。-->
+	  <!--只要设置了AssemblyVersion，不单独设置FileVersion，那么FileVersion = AssemblyVersion-->
+	  <AssemblyVersion>1.4.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
