@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PPTLib.Functions
+namespace NewTimer.FunctionDir
 {
     /// <summary>
     /// 该类本质上都是对System.Diagnostics.Process类的封装
@@ -47,7 +47,7 @@ namespace PPTLib.Functions
             //确保只保留1个程序进程
             var id = ps?.Id;
             var name = ps?.ProcessName;
-            var pList = ProcessCommon.GetProcessByName(name);
+            var pList = GetProcessByName(name);
             if (pList?.Length > 1)
             {
                 foreach (var p in pList)
