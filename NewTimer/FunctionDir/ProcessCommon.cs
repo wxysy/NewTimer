@@ -36,6 +36,8 @@ namespace NewTimer.FunctionDir
                     startInfo.ArgumentList.Add(arg);
             
             var ps = Process.Start(startInfo);
+            if (ps != null) //允许进程引发事件（该事件不会阻塞进程，这样如Exited事件才会有用）
+                ps.EnableRaisingEvents = true; //不设置为true，Exited事件就无效
             return ps;
         }
 
