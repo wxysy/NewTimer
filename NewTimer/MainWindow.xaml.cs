@@ -91,7 +91,12 @@ namespace NewTimer
                 }
                 else //其他文件的处理
                 {
-                    appCD ??= new(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, progress);
+                    appCD ??= new(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, progress)
+                    {
+                        IsZeroEventActived = mainSettings.IsZeroEventActived,
+                        IsUIControlActived = mainSettings.IsUIControlActived,
+                    }
+                    ; //初始化默认值
                     appCD?.AppOpen(selectPath);
                 }
             }
