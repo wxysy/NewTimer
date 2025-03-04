@@ -39,6 +39,35 @@ namespace Infrastructure.Common.ProcessDir
             return ps;
         }
 
+        //启动且仅保留1个相同名称的线程
+        public static Process? StartProcessOnlyOneByName(string filePath, string[]? args)
+        {
+            var ps = StartProcess(filePath, args);
+
+            //确保只保留1个程序进程
+            var id = ps?.Id;
+            var name = ps?.ProcessName;
+            var pList = GetProcessByName(name);
+            if (pList?.Length > 1)
+            {
+                foreach (var p in pList)
+                {
+                    if (p.Id != id)
+                    {
+                        var res = p.CloseMainWindow();
+                        if (!res)
+                            p.Kill();
+                    }
+                    else
+                    { }
+                }
+            }
+            else
+            { }
+
+            return ps;
+        }
+
         public static Process[] GetProcessByName(string? processName)
         {
             /*《Process.GetProcessesByName 方法》

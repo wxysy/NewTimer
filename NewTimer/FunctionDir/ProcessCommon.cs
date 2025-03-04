@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PPTLib.Functions
+namespace NewTimer.FunctionDir
 {
     /// <summary>
     /// 该类本质上都是对System.Diagnostics.Process类的封装
