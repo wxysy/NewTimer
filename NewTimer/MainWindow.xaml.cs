@@ -34,6 +34,7 @@ namespace NewTimer
         MainSettingModel mainSettings = new();
         IProgress<string> progress;
         PPTCountDown? pptCD;
+        AppCountDown? appCD;
         CountDownTimer? separateTimer; 
         public ObservableCollection<string> DGItems { get; set; } = [];
         #endregion
@@ -71,8 +72,10 @@ namespace NewTimer
                 string ext = System.IO.Path.GetExtension(selectPath);
 
                 pptCD = null;
+                appCD = null;
                 separateTimer?.Close();
-                separateTimer = null;               
+                separateTimer = null;
+
                 if (extensionList.Contains(ext)) //PPT文件的处理
                 {
                     pptCD ??= new(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, progress)
@@ -85,60 +88,12 @@ namespace NewTimer
                 }
                 else //其他文件的处理
                 {
-                    separateTimer ??= TimerStarter.CreatCountDownTimer(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, mainSettings.IsUIControlActived, ZeroEvent, null, null);
-                    processName = AnyFileOpen(selectPath); //存储打开文件关联的进程名称，用于之后关闭进程。
-                    separateTimer?.StartOrStop();
+                    appCD ??= new(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, progress);
+                    appCD?.AppOpen(selectPath);
                 }
             }
 
-        }
-        private void ZeroEvent(object? sender, EventArgs e)
-        {
-            cb_IsZeroEventActived.Dispatcher.Invoke(() =>
-            {
-                if (cb_IsZeroEventActived.IsChecked == true)
-                {
-                    /* 参考
-                     * 1、《C#实现关闭某个指定程序》
-                     * https://blog.csdn.net/laozhuxinlu/article/details/50422057
-                     * 2、《Process类的CloseMainWindow, Kill, Close》
-                     * https://www.cnblogs.com/zjoch/p/3654940.html
-                     * 3、《C#各种结束进程的方法详细介绍》
-                     * https://blog.csdn.net/yl2isoft/article/details/54176740
-                     * 4、PowerPoint进程实测信息
-                     * string pptProgressName = "POWERPNT";//进程名称：POWERPNT.EXE
-                     * string pptMainWindowTitle = "PowerPoint";
-                     */
-                    progress.Report("时间到");
-                    Process[] processes = Process.GetProcesses();
-                    foreach (Process p in processes)
-                    {
-                        if (p.ProcessName.Equals(processName, StringComparison.OrdinalIgnoreCase))
-                        {
-                            //p.Kill();//太刚猛，没必要
-                            p.CloseMainWindow();//Process.CloseMainWindow是GUI程序的最友好结束方式
-                        }
-                    }
-                    processName = default; //使变量回到初始值
-                }
-                else
-                { }
-            });
-        }
-        private static string? AnyFileOpen(string selectPath)
-        {
-            //【启动程序】
-            var startInfo = new ProcessStartInfo()
-            {
-                //ArgumentList = { "abc", "def" }, //启动参数列表。MainWindow(string[]? startUpArgs)
-                FileName = selectPath,
-                WorkingDirectory = Directory.GetCurrentDirectory(),
-                UseShellExecute = true,
-            };
-
-            var ps = Process.Start(startInfo);
-            return ps?.ProcessName;
-        }
+        }       
         #endregion
 
         //参数设定
@@ -164,6 +119,7 @@ namespace NewTimer
         private void Btn_OpenTimer_Click(object sender, RoutedEventArgs e)
         {
             pptCD = null;
+            appCD = null;
             separateTimer?.Close();
             separateTimer = null;
             separateTimer ??= TimerStarter.CreatCountDownTimer(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, mainSettings.IsUIControlActived, null, null, null);
