@@ -69,7 +69,7 @@ namespace NewTimer.FunctionDir
             if (Component_Process?.HasExited != false) //用于替代Component_Process_Exited
             {
                 Component_Timer?.Close();
-                //if (Component_Timer != null)
+                //if (Component_Timer != null) //不注释掉计时器界面只停止不关闭
                 //    Component_Timer = null;
             }
         }
