@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using Infrastructure.Common.ProcessDir;
+using PPTLib.Functions;
 using TimerLib;
 using TimerLib.Functions;
 using Windows.Media.Capture.Core;
@@ -31,16 +32,16 @@ namespace NewTimer.FunctionDir
             {
                 Component_Timer = TimerStarter.CreatCountDownTimer(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, IsUIControlActived, CountDown_ZeroEvent, TimerClosing_Event, TimerTick_Event);
                 Component_Timer.StartOrStop();
-                //Component_Process.Exited += Component_Process_Exited;//此方法不触发，不知原因。
+                Component_Process.Exited += Component_Process_Exited;//此方法触发条件：设定ps.EnableRaisingEvents = true;
             }
         }
 
-        //private void Component_Process_Exited(object? sender, EventArgs e)
-        //{
-        //    Component_Timer?.Close();
-        //    if (Component_Timer != null)
-        //        Component_Timer = null;
-        //}
+        private void Component_Process_Exited(object? sender, EventArgs e)
+        {
+            Component_Timer?.Close();
+            if (Component_Timer != null)
+                Component_Timer = null;
+        }
 
         private void CountDown_ZeroEvent(object? sender, EventArgs e)
         {
@@ -65,14 +66,7 @@ namespace NewTimer.FunctionDir
         {
             if (e == 0) //0时刻时直接执行0时刻事件
                 return;
-            progress?.Report($"|计时器运行中|剩余时间：{e}s...");
-
-            if (Component_Process?.HasExited != false) //用于替代Component_Process_Exited
-            {
-                Component_Timer?.Close();
-                //if (Component_Timer != null) //不注释掉计时器界面只停止不关闭
-                //    Component_Timer = null;
-            }
+            progress?.Report($"|计时器运行中|剩余时间：{e}s...");           
         }
     }
 }

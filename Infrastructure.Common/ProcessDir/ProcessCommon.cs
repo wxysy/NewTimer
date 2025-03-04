@@ -30,12 +30,19 @@ namespace Infrastructure.Common.ProcessDir
                 WorkingDirectory = Directory.GetCurrentDirectory(),
                 UseShellExecute = true, //指定是否使用操作系统 shell 启动进程
             };
+
             //ArgumentList是只读属性，不能直接操作,只能用Add()方法。
+            //为什么使用ArgumentList而不是用Arguments属性？
+            //因为不需要转义。
+            //Arguments属性相当于一个长的字符串，使用【空格】作为多个参数之间的分隔符，参数多了挺麻烦。
+            //玩游戏中经常用的 “abc.exe /s /f /t”，其中“ /s /f /t”就是Arguments属性值，这里带了3个参数。
             if (args != null)
                 foreach (var arg in args)
                     startInfo.ArgumentList.Add(arg);
-            
+
             var ps = Process.Start(startInfo);
+            if (ps != null) //允许进程引发事件（该事件不会阻塞进程，这样如Exited事件才会有用）
+                ps.EnableRaisingEvents = true; //不设置为true，Exited事件就无效
             return ps;
         }
 
