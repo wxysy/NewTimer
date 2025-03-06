@@ -11,6 +11,7 @@ using PPTLib.Functions;
 using TimerLib;
 using TimerLib.Functions;
 using Windows.Media.Capture.Core;
+using ProcessCommon = Infrastructure.Common.ProcessDir.ProcessCommon;
 
 namespace NewTimer.FunctionDir
 {
