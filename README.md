@@ -59,7 +59,7 @@ v1.0.0.0 -- 所有功能初步实现
 # 六、参与贡献(Contribute)
 我的主页：https://github.com/wxysy  
 我的邮箱：[Email]  
-若您也希望为项目做出一份共享，欢迎联系我！  
+若您也希望为项目做出一份贡献，欢迎通过邮箱或者通过提出issue的方式联系我！  
 
 <a id="License"></a>
 # 七、软件许可(License)
