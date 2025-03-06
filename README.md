@@ -61,6 +61,8 @@ v1.0.0.0 -- 所有功能初步实现
 
 <a id="License"></a>
 # 七、软件许可(License)
-This project is protected by BSD 3-Clause License.
+该项目采用 BSD 3-Clause 许可。  
+2025 wxysy 版权所有，保留一切权力。  
+This project is protected by BSD 3-Clause License.  
 Copyright © 2025 wxysy. All rights reserved.  
 
