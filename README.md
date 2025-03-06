@@ -2,7 +2,8 @@
 
 <!--这里放置项目徽章（Badge）,多数使用这个网站：https://shields.io/badges-->
 ![Static Badge](https://img.shields.io/badge/license-BSD%203%20Clause-blue?style=flat)<!--许可类型-->
-![Static Badge](https://img.shields.io/badge/latest%20Version-v1.0.0.0-blue?style=flat)<!--最新版本号-->
+![Static Badge](https://img.shields.io/badge/C%23-100%25-blue)<!--使用的编程语言-->
+![Static Badge](https://img.shields.io/badge/latest%20Version-v1.0.0.0-brightgreen?style=flat)<!--最新版本号-->
 ![Static Badge](https://img.shields.io/badge/update%20Date-2025%2F03%2F01-brightgreen?style=flat)<!--更新日期-->
 
 * 目录
@@ -59,7 +60,7 @@ v1.0.0.0 -- 所有功能初步实现
 # 六、参与贡献(Contribute)
 我的主页：https://github.com/wxysy  
 我的邮箱：[Email]  
-若您也希望为项目做出一份共享，欢迎联系我！  
+若您也希望为项目做出一份贡献，欢迎通过邮箱或者通过提出issue的方式联系我！  
 
 <a id="License"></a>
 # 七、软件许可(License)
