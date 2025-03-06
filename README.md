@@ -48,7 +48,7 @@ v1.0.0.0 -- 所有功能初步实现
 
 <a id="RelatedEfforts"></a>
 # 四、相关工作(Related Efforts)
-目前正在主要在开发附带评分功能的分支master_CombineScoreCaculator，主分支master已停止更新维护。
+目前正在主要在开发附带评分功能的分支master_CombineScoreCaculator，主分支master已停止更新维护。  
 分支master_CombineScoreCaculator请点击这里：[分支master_CombineScoreCaculator](https://github.com/wxysy/NewTimer/tree/master_CombineScoreCaculator)
 
 <a id="Contact"></a>
@@ -57,7 +57,9 @@ v1.0.0.0 -- 所有功能初步实现
 
 <a id="Contribute"></a>
 # 六、参与贡献(Contribute)
-我非常欢迎各种形式的贡献！  
+我的主页：https://github.com/wxysy  
+我的邮箱：[Email]  
+若您也希望为项目做出一份共享，欢迎联系我！  
 
 <a id="License"></a>
 # 七、软件许可(License)
