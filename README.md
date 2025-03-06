@@ -33,7 +33,7 @@
 ## 1.2 更新说明(Update Description)
 v1.0.0.0 -- 所有功能初步实现
 
-## 1.3 参考文献
+## 1.3 参考文献(References)
 1、[《手把手教会你使用Markdown【从入门到精通一篇就够了】》](https://blog.csdn.net/qq_40818172/article/details/126260661)  
 2、[《一个开源项目的readme文档应该包含哪些信息才算是一份合格的文档？》](https://www.zhihu.com/question/21487556)
 
