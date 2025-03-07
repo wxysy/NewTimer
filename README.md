@@ -1,7 +1,7 @@
 ﻿# <center>倒计时计时器<center>
 
 <!--这里放置项目徽章（Badge）,多数使用这个网站：https://shields.io/badges-->
-![Static Badge](https://img.shields.io/badge/license-BSD%203%20Clause-blue?style=flat)<!--许可类型-->
+![Static Badge](https://img.shields.io/badge/License-BSD%203%20Clause-blue?style=flat)<!--许可类型-->
 ![Static Badge](https://img.shields.io/badge/C%23-100%25-blue)<!--使用的编程语言-->
 ![Static Badge](https://img.shields.io/badge/latest%20Version-v1.0.0.0-brightgreen?style=flat)<!--最新版本号-->
 ![Static Badge](https://img.shields.io/badge/update%20Date-2025%2F03%2F01-brightgreen?style=flat)<!--更新日期-->
