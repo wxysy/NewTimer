@@ -151,11 +151,11 @@ namespace TimerLib.Functions
         }
 
         /// <summary>
-        /// 倒计时器窗体在关闭之后的操作(e:剩余时间s)。
+        /// 倒计时器窗体在关闭之前 的操作(e:剩余时间s)。
         /// 主要用于直接关闭计时器页面时的动作
         /// </summary>
-        public event EventHandler<int>? CDT_TimerWindowClosedEvent;
-        private void OnTimerWindowClosedEvent(int para) => CDT_TimerWindowClosedEvent?.Invoke(this, para);
+        public event EventHandler<int>? CDT_BeforeTimerWindowClosedEvent;
+        private void OnBeforeTimerWindowClosedEvent(int para) => CDT_BeforeTimerWindowClosedEvent?.Invoke(this, para);
 
 
         private void LoadingParas(int cdSeconds, Brush cdColor, int wnSeconds, Brush wnColor, int timerInterval, bool allowUIControl)
@@ -249,9 +249,7 @@ namespace TimerLib.Functions
                 //《C# WPF 调用线程无法访问此对象，因为另一个线程拥有该对象，解决办法》
                 //https://blog.csdn.net/YouthMe/article/details/102852580
                 //但这里的使用和参考文献还有不同，不是this.Dispatcher.Invoke而是timerWindow?.Dispatcher.Invoke。
-            });
-
-            OnTimerWindowClosedEvent(TimeLeft); //关闭窗体之后的动作
+            });          
         }
 
         public void AllowUIOperations(bool state) 
@@ -262,6 +260,8 @@ namespace TimerLib.Functions
 
         private void TimerWindow_BeforeTimerWindowClosed(object? sender, string? e)
         {
+            OnBeforeTimerWindowClosedEvent(TimeLeft); //关闭窗体之前的动作
+
             mainTimer?.Stop(); //停止计时
             ResetTimeLeft(); //计时器复位
             

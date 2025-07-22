@@ -28,7 +28,7 @@ namespace NewTimer.FunctionDir
             Component_Process = ProcessCommon.StartProcessOnlyOneByName(filePath, null);
             if(Component_Process is not null)
             {
-                Component_Timer = TimerStarter.CreatCountDownTimer(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, IsUIControlActived, ACD_TimerTickEvent, ACD_ZeroEvent, ACD_TimerWindowClosedEvent);
+                Component_Timer = TimerStarter.CreatCountDownTimer(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, IsUIControlActived, ACD_TimerTickEvent, ACD_ZeroEvent, ACD_BeforeTimerWindowClosedEvent);
                 Component_Timer.StartOrStop();
                 Component_Process.Exited += Component_Process_Exited;//此方法触发条件：ps.EnableRaisingEvents = true;
             }
@@ -56,7 +56,7 @@ namespace NewTimer.FunctionDir
             else
             { }
         }
-        private void ACD_TimerWindowClosedEvent(object? sender, int e)
+        private void ACD_BeforeTimerWindowClosedEvent(object? sender, int e)
         {
             progress?.Report($"|执行关闭计时器事件|关闭APP，剩余时间：{e}s...");
             if (Component_Process != null)

@@ -38,7 +38,7 @@ namespace NewTimer.FunctionDir
         }
         private void PPTShowBegin_Event(object? sender, EventArgs e)
         {
-            Component_Timer = TimerStarter.CreatCountDownTimer(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, IsUIControlActived, PPT_TimerTickEvent, PPT_ZeroEvent, PPT_TimerWindowClosedEvent);
+            Component_Timer = TimerStarter.CreatCountDownTimer(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, IsUIControlActived, PPT_TimerTickEvent, PPT_ZeroEvent, PPT_BeforeTimerWindowClosedEvent);
             Component_Timer.StartOrStop();
         }
         private void PPTShowBegin_End(object? sender, EventArgs e)
@@ -57,7 +57,7 @@ namespace NewTimer.FunctionDir
             else
             { }
         }
-        private void PPT_TimerWindowClosedEvent(object? sender, int e)
+        private void PPT_BeforeTimerWindowClosedEvent(object? sender, int e)
         {
             if (e == 0) //0时刻时直接执行0时刻事件
                 return;
