@@ -126,8 +126,7 @@ namespace NewTimer
             appCD = null;
             separateTimer?.Close();
             separateTimer = null;
-            mainSettings.IsUIControlActived = true; //单独启动计时器必须允许UI操作，要不怎么搞法。
-            separateTimer ??= TimerStarter.CreatCountDownTimer(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, mainSettings.IsUIControlActived, null, null, null);
+            separateTimer ??= TimerStarter.CreatCountDownTimer(mainSettings.CountDownSeconds, mainSettings.CountDownColor, mainSettings.WarningSeconds, mainSettings.WarningColor, mainSettings.TimerInterval, true, null, null, null); //单独启动计时器必须允许UI操作，要不怎么搞法。
             separateTimer?.StartOrStop();
         }
 
