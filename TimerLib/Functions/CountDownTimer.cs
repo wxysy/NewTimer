@@ -83,9 +83,7 @@ namespace TimerLib.Functions
         TimerWindow? timerWindow;
         System.Timers.Timer? mainTimer;//主计时器
         
-        //bool isTimerWindowOpened = false;
         public bool IsTimerWindowOpened { get; private set; }//是否显示UI界面
-        //bool isUIOperationsAllowedSet = true;
         public bool IsUIOperatesAllowed { get; private set; }//是否允许UI界面点击按钮操作
 
         private bool isTimerRunning = false;//是否在运行
