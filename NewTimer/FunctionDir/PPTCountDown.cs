@@ -43,7 +43,7 @@ namespace NewTimer.FunctionDir
         }
         private void PPTShowBegin_End(object? sender, EventArgs e)
         {
-            Component_Timer?.Close();
+            Component_Timer?.CloseTimerWindow();
             if (Component_Timer != null)
                 Component_Timer = null;
         }

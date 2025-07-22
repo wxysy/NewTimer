@@ -36,7 +36,7 @@ namespace NewTimer.FunctionDir
 
         private void Component_Process_Exited(object? sender, EventArgs e)
         {
-            Component_Timer?.Close();
+            Component_Timer?.CloseTimerWindow();
             if (Component_Timer != null)
                 Component_Timer = null;
         }

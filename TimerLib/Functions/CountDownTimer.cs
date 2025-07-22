@@ -129,25 +129,35 @@ namespace TimerLib.Functions
             InitializeTimer();//初始化Timer
         }
 
-        #region 方法和事件
+        #region 方法和事件       
         /// <summary>
-        /// 0时刻事件(除停止计时器和关闭窗体外的)
+        /// 计时器每次Tick时的额外操作(不用在此类中编写倒计时变化，0时刻会引发专门的0时刻事件，0时刻不会引发此事件)
         /// </summary>
-        public event EventHandler? ZeroEvent;
-        private void OnZeroEvent() => ZeroEvent?.Invoke(this, EventArgs.Empty);
+        public event EventHandler<int>? CDT_TimerTickEvent;
+        private void OnTimerTickEvent(int timeLeft)
+        {
+            if (TimeLeft == 0)
+                OnZeroEvent();
+            else
+                CDT_TimerTickEvent?.Invoke(this, timeLeft);
+        }
 
         /// <summary>
-        /// 倒计时器在关闭之前的操作(e:剩余时间s)。
-        /// 【注意】如果在0时刻关闭，也会引发此事件。
+        /// 0时刻事件(除停止计时器和关闭窗体外的操作)
         /// </summary>
-        public event EventHandler<int>? TimerClosingEvent;
-        private void OnTimerClosingEvent(int para) => TimerClosingEvent?.Invoke(this, para);
+        public event EventHandler? CDT_ZeroEvent;
+        private void OnZeroEvent()
+        {
+            CDT_ZeroEvent?.Invoke(this, EventArgs.Empty);
+            CloseTimerWindow(); //关闭计时窗体(关闭窗体的事件TimerWindow_BeforeTimerWindowClosed中有停止计时器操作)
+        }
 
         /// <summary>
-        /// 计时器每次Tick时的额外操作(不用在此类中编写倒计时变化，且0时刻不会引发此事件)
+        /// 倒计时器窗体在关闭之后的操作(e:剩余时间s)。
+        /// 主要用于直接关闭计时器页面时的动作
         /// </summary>
-        public event EventHandler<int>? TimerTickEvent;
-        private void OnTimerTickEvent(int timeLeft) => TimerTickEvent?.Invoke(this, timeLeft);
+        public event EventHandler<int>? CDT_TimerWindowClosedEvent;
+        private void OnTimerWindowClosedEvent(int para) => CDT_TimerWindowClosedEvent?.Invoke(this, para);
 
 
         private void LoadingParas(int cdSeconds, Brush cdColor, int wnSeconds, Brush wnColor, int timerInterval, bool allowUIControl)
@@ -162,7 +172,6 @@ namespace TimerLib.Functions
             warningColor = wnColor;
             TimeLeft = countdownTimeSet;
             interval = timerInterval;
-            //isUIOperationsAllowedSet = allowUIControl;
             IsUIOperatesAllowed = allowUIControl;
         }
         private void InitializeTimer()
@@ -175,15 +184,7 @@ namespace TimerLib.Functions
         {           
             TimeLeft -= interval; //每次减少1s
             timerWindow?.Display(DisplayFormat(TimeLeft), TimeLeft > warningTimeSet ? countdownColor : warningColor, IsTimerRunning, "MM:ss");
-            
-            if (TimeLeft == 0)
-            {
-                mainTimer?.Stop(); //停止计时
-                OnZeroEvent(); //执行0时刻事件
-                Close();    
-            }
-            else
-            { OnTimerTickEvent(TimeLeft); }
+            OnTimerTickEvent(TimeLeft);
         }
         private static string DisplayFormat(int input)
         {
@@ -223,10 +224,10 @@ namespace TimerLib.Functions
                 Application.Current.Dispatcher.BeginInvoke(() => //必须要BeginInvoke，Invoke会卡死。
                 {
                     timerWindow = new(DisplayFormat(TimeLeft), TimeLeft > warningTimeSet ? countdownColor : warningColor, IsUIOperatesAllowed);
-                    timerWindow.BeforeTimerWindowClosed += TimerWindow_BeforeTimerWindowClosed;
-                    timerWindow.RightClickMenuItemClicked += TimerWindow_RightClickMenuItemClicked;
-                    timerWindow.PauseClicked += TimerWindow_PauseClicked;
-                    timerWindow.SettingsClicked += TimerWindow_SettingsClicked;
+                    timerWindow.TW_BeforeTimerWindowClosed += TimerWindow_BeforeTimerWindowClosed;
+                    timerWindow.TW_RightClickMenuItemClicked += TimerWindow_RightClickMenuItemClicked;
+                    timerWindow.TW_PauseClicked += TimerWindow_PauseClicked;
+                    timerWindow.TW_SettingsClicked += TimerWindow_SettingsClicked;
                     timerWindow?.Show();
                 });
             }
@@ -236,7 +237,7 @@ namespace TimerLib.Functions
             IsTimerRunning = true;            
         }
 
-        public void Close()
+        public void CloseTimerWindow()
         {
             //timerWindow?.Dispatcher.InvokeShutdown(); //这会把主程序一并给关了
             //《程序在Dispatcher.Run()处挂起 c#》
@@ -251,6 +252,8 @@ namespace TimerLib.Functions
                 //https://blog.csdn.net/YouthMe/article/details/102852580
                 //但这里的使用和参考文献还有不同，不是this.Dispatcher.Invoke而是timerWindow?.Dispatcher.Invoke。
             });
+
+            OnTimerWindowClosedEvent(TimeLeft); //关闭窗体之后的动作
         }
 
         public void AllowUIOperations(bool state) 
@@ -262,12 +265,11 @@ namespace TimerLib.Functions
         private void TimerWindow_BeforeTimerWindowClosed(object? sender, string? e)
         {
             mainTimer?.Stop(); //停止计时
-            OnTimerClosingEvent(TimeLeft);//0时刻也会引发此事件
-            Reset(); //计时器复位
-            IsTimerWindowOpened = false;
-            IsTimerRunning = false;
-            //IsUIOperatesAllowed = isUIOperationsAllowedSet;
-            IsUIOperatesAllowed = true;
+            ResetTimeLeft(); //计时器复位
+            
+            IsTimerRunning = false; //计时器停止运行
+            IsTimerWindowOpened = false; //计时窗口关闭
+            IsUIOperatesAllowed = true; //允许UI操作恢复默认
         }
         private void TimerWindow_RightClickMenuItemClicked(object? sender, Dictionary<string, object> e)
         {
@@ -288,12 +290,12 @@ namespace TimerLib.Functions
             {
                 countdownTimeSet = e[0];
                 warningTimeSet = e[1];
-                Reset();
+                ResetTimeLeft();
             };
             settingsView.Show();
         }
 
-        public void Reset() => TimeLeft = countdownTimeSet;
+        public void ResetTimeLeft() => TimeLeft = countdownTimeSet;
         #endregion
     }
 }

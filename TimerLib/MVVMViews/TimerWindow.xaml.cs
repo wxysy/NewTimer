@@ -188,26 +188,26 @@ namespace TimerLib.MVVMViews
         /// <summary>
         /// 点击关闭按钮时，在关闭窗体之前的额外操作。
         /// </summary>
-        public event EventHandler<string?>? BeforeTimerWindowClosed;
-        private void OnBeforeTimerWindowClosed(string? para) => BeforeTimerWindowClosed?.Invoke(this, para);
+        public event EventHandler<string?>? TW_BeforeTimerWindowClosed;
+        private void OnBeforeTimerWindowClosed(string? para) => TW_BeforeTimerWindowClosed?.Invoke(this, para);
 
         /// <summary>
         /// 点击暂停按钮时动作
         /// </summary>
-        public event EventHandler<string?>? PauseClicked;
-        private void OnPauseClicked(string? para) => PauseClicked?.Invoke(this, para);
+        public event EventHandler<string?>? TW_PauseClicked;
+        private void OnPauseClicked(string? para) => TW_PauseClicked?.Invoke(this, para);
 
         /// <summary>
         /// 点击设定按钮时的动作
         /// </summary>
-        public event EventHandler<string?>? SettingsClicked;
-        private void OnSettingsClicked(string? para) => SettingsClicked?.Invoke(this, para);
+        public event EventHandler<string?>? TW_SettingsClicked;
+        private void OnSettingsClicked(string? para) => TW_SettingsClicked?.Invoke(this, para);
 
         /// <summary>
         /// 右键菜单按钮点击操作
         /// </summary>
-        public event EventHandler<Dictionary<string, object>>? RightClickMenuItemClicked;
-        private void OnRightClickMenuItemClicked(Dictionary<string, object> para) => RightClickMenuItemClicked?.Invoke(this, para);
+        public event EventHandler<Dictionary<string, object>>? TW_RightClickMenuItemClicked;
+        private void OnRightClickMenuItemClicked(Dictionary<string, object> para) => TW_RightClickMenuItemClicked?.Invoke(this, para);
         #endregion
 
         #region 方法
