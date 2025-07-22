@@ -82,8 +82,10 @@ namespace TimerLib.Functions
         Brush warningColor = Brushes.Red; //提醒颜色            
         TimerWindow? timerWindow;
         System.Timers.Timer? mainTimer;//主计时器
-        bool isTimerWindowOpened = false;
-        bool isUIOperationsAllowedSet = true;
+        
+        //bool isTimerWindowOpened = false;
+        public bool IsTimerWindowOpened { get; private set; }//是否显示UI界面
+        //bool isUIOperationsAllowedSet = true;
         public bool IsUIOperatesAllowed { get; private set; }//是否允许UI界面点击按钮操作
 
         private bool isTimerRunning = false;//是否在运行
@@ -160,7 +162,7 @@ namespace TimerLib.Functions
             warningColor = wnColor;
             TimeLeft = countdownTimeSet;
             interval = timerInterval;
-            isUIOperationsAllowedSet = allowUIControl;
+            //isUIOperationsAllowedSet = allowUIControl;
             IsUIOperatesAllowed = allowUIControl;
         }
         private void InitializeTimer()
@@ -212,9 +214,9 @@ namespace TimerLib.Functions
 
         private void ContinueOrStart()
         {
-            if (isTimerWindowOpened == false)
+            if (IsTimerWindowOpened == false)
             {
-                isTimerWindowOpened = true;
+                IsTimerWindowOpened = true;
 
                 //《WPF 之 调用线程必须为 STA,因为许多 UI 组件都需要》
                 //https://www.cnblogs.com/xinaixia/p/5706096.html
@@ -262,9 +264,10 @@ namespace TimerLib.Functions
             mainTimer?.Stop(); //停止计时
             OnTimerClosingEvent(TimeLeft);//0时刻也会引发此事件
             Reset(); //计时器复位
-            isTimerWindowOpened = false;
+            IsTimerWindowOpened = false;
             IsTimerRunning = false;
-            IsUIOperatesAllowed = isUIOperationsAllowedSet;
+            //IsUIOperatesAllowed = isUIOperationsAllowedSet;
+            IsUIOperatesAllowed = true;
         }
         private void TimerWindow_RightClickMenuItemClicked(object? sender, Dictionary<string, object> e)
         {
