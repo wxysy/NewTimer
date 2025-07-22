@@ -38,7 +38,7 @@ namespace NewTimer.FunctionDir
         }
         private void PPTShowBegin_Event(object? sender, EventArgs e)
         {
-            Component_Timer = TimerStarter.CreatCountDownTimer(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, IsUIControlActived, CountDown_ZeroEvent, TimerClosing_Event, TimerTick_Event);
+            Component_Timer = TimerStarter.CreatCountDownTimer(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, IsUIControlActived, PPT_TimerTickEvent, PPT_ZeroEvent, PPT_TimerWindowClosedEvent);
             Component_Timer.StartOrStop();
         }
         private void PPTShowBegin_End(object? sender, EventArgs e)
@@ -47,7 +47,7 @@ namespace NewTimer.FunctionDir
             if (Component_Timer != null)
                 Component_Timer = null;
         }
-        private void CountDown_ZeroEvent(object? sender, EventArgs e)
+        private void PPT_ZeroEvent(object? sender, EventArgs e)
         {
             if (IsZeroEventActived)
             {
@@ -57,14 +57,14 @@ namespace NewTimer.FunctionDir
             else
             { }
         }
-        private void TimerClosing_Event(object? sender, int e)
+        private void PPT_TimerWindowClosedEvent(object? sender, int e)
         {
             if (e == 0) //0时刻时直接执行0时刻事件
                 return;
             progress?.Report($"|执行关闭计时器事件|关闭PPT，剩余时间：{e}s...");
             Component_PPTPlay?.PPTClose();
         }
-        private void TimerTick_Event(object? sender, int e)
+        private void PPT_TimerTickEvent(object? sender, int e)
         {
             progress?.Report($"|计时器运行中|剩余时间：{e}s...");
         }

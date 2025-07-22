@@ -28,7 +28,7 @@ namespace NewTimer.FunctionDir
             Component_Process = ProcessCommon.StartProcessOnlyOneByName(filePath, null);
             if(Component_Process is not null)
             {
-                Component_Timer = TimerStarter.CreatCountDownTimer(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, IsUIControlActived, CountDown_ZeroEvent, TimerClosing_Event, TimerTick_Event);
+                Component_Timer = TimerStarter.CreatCountDownTimer(countDownSeconds, countDownColor, warningSeconds, warningColor, timerInterval, IsUIControlActived, ACD_TimerTickEvent, ACD_ZeroEvent, ACD_TimerWindowClosedEvent);
                 Component_Timer.StartOrStop();
                 Component_Process.Exited += Component_Process_Exited;//此方法触发条件：ps.EnableRaisingEvents = true;
             }
@@ -39,9 +39,13 @@ namespace NewTimer.FunctionDir
             Component_Timer?.CloseTimerWindow();
             if (Component_Timer != null)
                 Component_Timer = null;
+        }       
+        
+        private void ACD_TimerTickEvent(object? sender, int e)
+        {
+            progress?.Report($"|计时器运行中|剩余时间：{e}s...");
         }
-
-        private void CountDown_ZeroEvent(object? sender, EventArgs e)
+        private void ACD_ZeroEvent(object? sender, EventArgs e)
         {
             if (IsZeroEventActived)
             {
@@ -52,19 +56,11 @@ namespace NewTimer.FunctionDir
             else
             { }
         }
-        private void TimerClosing_Event(object? sender, int e)
+        private void ACD_TimerWindowClosedEvent(object? sender, int e)
         {
-            if (e == 0) //0时刻时直接执行0时刻事件
-                return;
             progress?.Report($"|执行关闭计时器事件|关闭APP，剩余时间：{e}s...");
             if (Component_Process != null)
                 ProcessCommon.CloseProcessByName(Component_Process.ProcessName);
-        }
-        private void TimerTick_Event(object? sender, int e)
-        {
-            if (e == 0) //0时刻时直接执行0时刻事件
-                return;
-            progress?.Report($"|计时器运行中|剩余时间：{e}s...");
         }
     }
 }
